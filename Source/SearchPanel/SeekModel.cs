@@ -5,8 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-//using Verse;
-
 namespace SearchPanel
 {
     public class SeekModel : ISeekModel
@@ -81,6 +79,8 @@ namespace SearchPanel
             if (!hasInitialized)
             {
                 Categories.AddRange(CategoryFactory.GetFilters());
+                ActiveCategory = Categories.FirstOrDefault();
+                SearchText = string.Empty;
                 hasInitialized = true;
             }
         }
