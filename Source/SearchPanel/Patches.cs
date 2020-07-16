@@ -17,7 +17,7 @@ namespace SearchPanel
 	{
 		private static bool s_hasModelInitialized;
 
-		public static readonly SeekModel SeekModel = new SeekModel();
+		public static readonly SeekModel SeekModel = new SeekModel(new MapSearcher());
 
 		public static readonly WindowController WindowController = new WindowController(SeekModel);
 
