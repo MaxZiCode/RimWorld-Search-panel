@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using Verse;
 
-namespace ZiTools
+namespace SearchPanel
 {
 	public class SearchThingDef : ISearchItem
 	{

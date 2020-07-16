@@ -8,7 +8,7 @@ using Verse;
 using Verse.Sound;
 using RimWorld;
 
-namespace ZiTools
+namespace SearchPanel
 {
 	public sealed class MainWindow : Window, ITextObserver, ICategoryObserver, ISearchItemObserver
 	{

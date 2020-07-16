@@ -10,7 +10,7 @@ using RimWorld;
 using HarmonyLib;
 using UnityEngine;
 
-namespace ZiTools
+namespace SearchPanel
 {
 	[StaticConstructorOnStartup]
 	public static class StaticConstructor
@@ -23,13 +23,8 @@ namespace ZiTools
 
 		static StaticConstructor()
 		{
-			Harmony harmony = new Harmony("rimworld.maxzicode.zitools.mainconstructor");
+			Harmony harmony = new Harmony("rimworld.maxzicode.searchpanel.mainconstructor");
 			harmony.PatchAll(Assembly.GetExecutingAssembly());
-		}
-
-		public static void LogDebug(string msg)
-		{
-			Log.Message("[ZiTools] " + msg);
 		}
 
 		#region Patches

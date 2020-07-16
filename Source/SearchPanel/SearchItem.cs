@@ -1,4 +1,4 @@
-﻿namespace ZiTools
+﻿namespace SearchPanel
 {
 	public class SearchItem
 	{

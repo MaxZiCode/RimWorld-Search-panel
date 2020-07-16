@@ -7,8 +7,8 @@
     <ProjectGuid>{1FE5966D-3C82-4E54-98AC-F782D302C963}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ZiTools</RootNamespace>
-    <AssemblyName>ZiTools</AssemblyName>
+    <RootNamespace>SearchPanel</RootNamespace>
+    <AssemblyName>SearchPanel</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -17,7 +17,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>portable</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\ZiTools\Assemblies\</OutputPath>
+    <OutputPath>..\..\SearchPanel\Assemblies\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>send</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -27,7 +27,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>portable</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>S:\Steam\steamapps\common\RimWorld\Mods\ZiTools\Assemblies\</OutputPath>
+    <OutputPath>..\..\SearchPanel\Assemblies\</OutputPath>
     <DefineConstants>
     </DefineConstants>
     <ErrorReport>prompt</ErrorReport>

@@ -8,7 +8,7 @@ using UnityEngine;
 using Verse;
 using Verse.Noise;
 
-namespace ZiTools
+namespace SearchPanel
 {
 	public class RequestGroupCategory : Category
 	{

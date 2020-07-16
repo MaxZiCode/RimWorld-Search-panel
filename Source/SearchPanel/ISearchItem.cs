@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using Verse;
 
-namespace ZiTools
+namespace SearchPanel
 {
 	public interface ISearchItem
 	{

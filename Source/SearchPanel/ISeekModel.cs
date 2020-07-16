@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Verse.Noise;
 
-namespace ZiTools
+namespace SearchPanel
 {
 	public interface ISeekModel
 	{

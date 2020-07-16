@@ -5,7 +5,7 @@ using System.Text;
 
 using UnityEngine;
 
-namespace ZiTools
+namespace SearchPanel
 {
 	public interface IDBIcon
 	{

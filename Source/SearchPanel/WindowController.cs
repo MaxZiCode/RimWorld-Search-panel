@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Verse;
 
-namespace ZiTools
+namespace SearchPanel
 {
 	public class WindowController : ISeekController
 	{

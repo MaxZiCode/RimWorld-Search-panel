@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 using Verse;
 
-namespace ZiTools
+namespace SearchPanel
 {
 	public static class SearchItemFactory
 	{

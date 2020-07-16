@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ZiTools
+namespace SearchPanel
 {
 	public abstract class Category
 	{
