@@ -72,7 +72,6 @@
   <ItemGroup>
     <Compile Include="Category.cs" />
     <Compile Include="ICategoryObserver.cs" />
-    <Compile Include="IDBIcon.cs" />
     <Compile Include="ISearchItem.cs" />
     <Compile Include="ISearchItemObserver.cs" />
     <Compile Include="ISeekController.cs" />
