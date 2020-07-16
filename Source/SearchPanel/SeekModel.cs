@@ -19,6 +19,7 @@ namespace SearchPanel
 
         private readonly SearchItemFactory searchItemFactory;
 
+        private bool hasInitialized;
         private string text;
         private Category activeCategory;
         private SearchItem activeSearchItem;
@@ -77,7 +78,11 @@ namespace SearchPanel
 
         public void Initialize()
         {
-            Categories.AddRange(CategoryFactory.GetFilters());
+            if (!hasInitialized)
+            {
+                Categories.AddRange(CategoryFactory.GetFilters());
+                hasInitialized = true;
+            }
         }
 
         public void RegisterObserver(ITextObserver textObserver)
