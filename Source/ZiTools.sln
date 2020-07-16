@@ -5,8 +5,6 @@ VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZiTools", "ZiTools\ZiTools.csproj", "{1FE5966D-3C82-4E54-98AC-F782D302C963}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZiTools BetterMiniMap Addon", "ZiTools BetterMiniMap Addon\ZiTools BetterMiniMap Addon.csproj", "{8E5BBF4A-1DC4-421F-AB09-D9738E00D7C6}"
-EndProject
 Project("{911E67C6-3D85-4FCE-B560-20A9C3E3FF48}") = "RimWorldWin64", "S:\Steam\steamapps\common\RimWorld\RimWorldWin64.exe", "{A8D8BBF1-0E81-4AFD-9A60-3A2BABD31205}"
 	ProjectSection(DebuggerProjectSystem) = preProject
 		PortSupplier = 00000000-0000-0000-0000-000000000000
@@ -36,12 +34,6 @@ Global
 		{1FE5966D-3C82-4E54-98AC-F782D302C963}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1FE5966D-3C82-4E54-98AC-F782D302C963}.Release|x64.ActiveCfg = Release|Any CPU
 		{1FE5966D-3C82-4E54-98AC-F782D302C963}.Release|x64.Build.0 = Release|Any CPU
-		{8E5BBF4A-1DC4-421F-AB09-D9738E00D7C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8E5BBF4A-1DC4-421F-AB09-D9738E00D7C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8E5BBF4A-1DC4-421F-AB09-D9738E00D7C6}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{8E5BBF4A-1DC4-421F-AB09-D9738E00D7C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8E5BBF4A-1DC4-421F-AB09-D9738E00D7C6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8E5BBF4A-1DC4-421F-AB09-D9738E00D7C6}.Release|x64.ActiveCfg = Release|Any CPU
 		{A8D8BBF1-0E81-4AFD-9A60-3A2BABD31205}.Debug|Any CPU.ActiveCfg = Release|x64
 		{A8D8BBF1-0E81-4AFD-9A60-3A2BABD31205}.Debug|x64.ActiveCfg = Release|x64
 		{A8D8BBF1-0E81-4AFD-9A60-3A2BABD31205}.Release|Any CPU.ActiveCfg = Release|x64

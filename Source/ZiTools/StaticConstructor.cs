@@ -33,17 +33,17 @@ namespace ZiTools
 		}
 
 		#region Patches
-		[HarmonyPatch(typeof(Game), "CurrentMap", MethodType.Setter)]
-		class Patch_CurrentMap
-		{
-			static void Postfix()
-			{
-				if (Find.WindowStack.IsOpen(typeof(ObjectSeeker_Window)) && Current.ProgramState == ProgramState.Playing)
-				{
-					((ObjectSeeker_Window)Find.WindowStack.Windows.First(w => w is ObjectSeeker_Window)).ODB.Update();
-				}
-			}
-		}
+		//[HarmonyPatch(typeof(Game), "CurrentMap", MethodType.Setter)]
+		//class Patch_CurrentMap
+		//{
+		//	static void Postfix()
+		//	{
+		//		if (Find.WindowStack.IsOpen(typeof(ObjectSeeker_Window)) && Current.ProgramState == ProgramState.Playing)
+		//		{
+		//			((ObjectSeeker_Window)Find.WindowStack.Windows.First(w => w is ObjectSeeker_Window)).ODB.Update();
+		//		}
+		//	}
+		//}
 
 		[HarmonyPatch(typeof(PlaySettings), "DoPlaySettingsGlobalControls", MethodType.Normal)]
 		class Patch_DoPlaySettingsGlobalControls
@@ -67,14 +67,14 @@ namespace ZiTools
 			}
 		}
 
-		[HarmonyPatch(typeof(MemoryUtility), "ClearAllMapsAndWorld", MethodType.Normal)]
-		class Patch_ClearAllMapsAndWorld
-		{
-			static void Postfix()
-			{
-				ObjectsDatabase.ClearUpdateAction();
-			}
-		}
+		//[HarmonyPatch(typeof(MemoryUtility), "ClearAllMapsAndWorld", MethodType.Normal)]
+		//class Patch_ClearAllMapsAndWorld
+		//{
+		//	static void Postfix()
+		//	{
+		//		ObjectsDatabase.ClearUpdateAction();
+		//	}
+		//}
 		#endregion Patches
 	}
 }
