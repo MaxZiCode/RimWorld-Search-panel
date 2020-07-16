@@ -11,15 +11,15 @@ namespace SearchPanel
 {
 	public class SeekModel : ISeekModel
 	{
-		private readonly List<ISearchItem> _allItems = new List<ISearchItem>();
-		private readonly List<ISearchItem> _searchItems = new List<ISearchItem>();
+		private readonly List<SearchItem> _allItems = new List<SearchItem>();
+		private readonly List<SearchItem> _searchItems = new List<SearchItem>();
 		private readonly List<ITextObserver> _textObservers = new List<ITextObserver>();
 		private readonly List<ICategoryObserver> _categoryObservers = new List<ICategoryObserver>();
 		private readonly List<ISearchItemObserver> _searchItemObservers = new List<ISearchItemObserver>();
 
 		private string _text;
 		private Category _activeCategory;
-		private ISearchItem _activeSearchItem;
+		private SearchItem _activeSearchItem;
 
 		public List<Category> Categories { get; } = new List<Category>();
 		public Category ActiveCategory 
@@ -32,8 +32,8 @@ namespace SearchPanel
 				NotifyCategoryObservers();
 			}
 		}
-		public IEnumerable<ISearchItem> SearchItems { get => _searchItems; }
-		public ISearchItem ActiveSearchItem 
+		public IEnumerable<SearchItem> SearchItems { get => _searchItems; }
+		public SearchItem ActiveSearchItem 
 		{ 
 			get => _activeSearchItem;
 			set
@@ -59,19 +59,19 @@ namespace SearchPanel
 
 		private void NotifySearchItemObservers() => _searchItemObservers.ForEach(so => so.AfterUpdateSearchItem());
 
-		public void AddFavourite(ISearchItem item)
+		public void AddFavourite(SearchItem item)
 		{
 			Log.Message("AddFavourite");
 		}
 
-		public void RemoveFavourite(ISearchItem item)
+		public void RemoveFavourite(SearchItem item)
 		{
 			Log.Message("RemoveFavourite");
 		}
 
 		public void Initialize()
 		{
-			Categories.AddRange(ItemFilterFactory.GetFilters());
+			Categories.AddRange(CategoryFactory.GetFilters());
 		}
 
 		public void RegisterObserver(ITextObserver textObserver)
@@ -117,7 +117,7 @@ namespace SearchPanel
 			// TODO: Added for tests, del later.
 			UpdateAllItems();
 
-			IEnumerable<ISearchItem> items = _allItems;
+			IEnumerable<SearchItem> items = _allItems;
 			if (_activeCategory != null)
 			{
 				items = _activeCategory.GetFilteredItems(items);

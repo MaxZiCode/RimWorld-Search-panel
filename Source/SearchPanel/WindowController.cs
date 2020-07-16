@@ -33,7 +33,7 @@ namespace SearchPanel
 			}	
 		}
 
-		public void AddFavourite(ISearchItem item)
+		public void AddFavourite(SearchItem item)
 		{
 			_model.AddFavourite(item);
 		}
@@ -53,7 +53,7 @@ namespace SearchPanel
 			}
 		}
 
-		public void ChangeActiveSearchItem(ISearchItem item)
+		public void ChangeActiveSearchItem(SearchItem item)
 		{
 			_model.ActiveSearchItem = item;
 		}
@@ -64,7 +64,7 @@ namespace SearchPanel
 				_model.SearchText = text;
 		}
 
-		public void RemoveFavourite(ISearchItem item)
+		public void RemoveFavourite(SearchItem item)
 		{
 			_model.RemoveFavourite(item);
 		}

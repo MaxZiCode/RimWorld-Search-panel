@@ -13,15 +13,15 @@ using UnityEngine;
 namespace SearchPanel
 {
 	[StaticConstructorOnStartup]
-	public static class StaticConstructor
+	public static class Patches
 	{
 		private static bool s_hasModelInitialized;
 
-		public static SeekModel SeekModel = new SeekModel();
+		public static readonly SeekModel SeekModel = new SeekModel();
 
-		public static WindowController WindowController = new WindowController(SeekModel);
+		public static readonly WindowController WindowController = new WindowController(SeekModel);
 
-		static StaticConstructor()
+		static Patches()
 		{
 			Harmony harmony = new Harmony("rimworld.maxzicode.searchpanel.mainconstructor");
 			harmony.PatchAll(Assembly.GetExecutingAssembly());

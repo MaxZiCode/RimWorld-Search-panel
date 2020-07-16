@@ -6,6 +6,6 @@ namespace SearchPanel
 	{
 		public string Label { get; set; }
 
-		public abstract IEnumerable<ISearchItem> GetFilteredItems(IEnumerable<ISearchItem> searchItems);
+		public abstract IEnumerable<SearchItem> GetFilteredItems(IEnumerable<SearchItem> searchItems);
 	}
 }

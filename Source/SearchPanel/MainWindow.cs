@@ -21,7 +21,7 @@ namespace SearchPanel
 		private Vector2 _itemsScrollPosition = new Vector2();
 		private string _text;
 		private Category _activeCategory;
-		private ISearchItem _activeSearchItem;
+		private SearchItem _activeSearchItem;
 
 		private readonly ISeekModel _model;
 		private readonly ISeekController _controller;

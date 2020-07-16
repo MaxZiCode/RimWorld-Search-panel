@@ -72,20 +72,18 @@
   <ItemGroup>
     <Compile Include="Category.cs" />
     <Compile Include="ICategoryObserver.cs" />
-    <Compile Include="ISearchItem.cs" />
+    <Compile Include="SearchItem.cs" />
     <Compile Include="ISearchItemObserver.cs" />
     <Compile Include="ISeekController.cs" />
     <Compile Include="ISeekModel.cs" />
-    <Compile Include="ItemFilterFactory.cs" />
+    <Compile Include="CategoryFactory.cs" />
     <Compile Include="ITextObserver.cs" />
     <Compile Include="MainWindow.cs" />
     <Compile Include="RequestGroupCategory.cs" />
-    <Compile Include="SearchItem.cs" />
     <Compile Include="SearchItemFactory.cs" />
-    <Compile Include="SearchThingDef.cs" />
     <Compile Include="WindowController.cs" />
     <Compile Include="SeekModel.cs" />
-    <Compile Include="StaticConstructor.cs" />
+    <Compile Include="Patches.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -4,8 +4,8 @@
 	{
 		void ChangeText(string text);
 		void ChangeActiveCategory(Category category);
-		void ChangeActiveSearchItem(ISearchItem searchItem);
-		void AddFavourite(ISearchItem item);
-		void RemoveFavourite(ISearchItem item);
+		void ChangeActiveSearchItem(SearchItem searchItem);
+		void AddFavourite(SearchItem item);
+		void RemoveFavourite(SearchItem item);
 	}
 }

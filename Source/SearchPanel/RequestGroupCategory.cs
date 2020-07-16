@@ -24,7 +24,7 @@ namespace SearchPanel
 
 		public void AddIgnorGroup(ThingRequestGroup group) => ignorGroups.Add(group);
 
-		public override IEnumerable<ISearchItem> GetFilteredItems(IEnumerable<ISearchItem> searchItems)
+		public override IEnumerable<SearchItem> GetFilteredItems(IEnumerable<SearchItem> searchItems)
 		{
 			foreach (var item in searchItems)
 			{

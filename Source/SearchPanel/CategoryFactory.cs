@@ -7,7 +7,7 @@ using Verse;
 
 namespace SearchPanel
 {
-	static class ItemFilterFactory
+	static class CategoryFactory
 	{
 		private static RequestGroupCategory reqFilter;
 

@@ -14,9 +14,9 @@ namespace SearchPanel
 
 		Category ActiveCategory { get; set; }
 
-		IEnumerable<ISearchItem> SearchItems { get; }
+		IEnumerable<SearchItem> SearchItems { get; }
 
-		ISearchItem ActiveSearchItem { get; set; }
+		SearchItem ActiveSearchItem { get; set; }
 
 		string SearchText { get; set; }
 
@@ -26,9 +26,9 @@ namespace SearchPanel
 
 		void UpdateSearchItems();
 
-		void AddFavourite(ISearchItem item);
+		void AddFavourite(SearchItem item);
 
-		void RemoveFavourite(ISearchItem item);
+		void RemoveFavourite(SearchItem item);
 
 		void RegisterObserver(ITextObserver textObserver);
 
