@@ -44,7 +44,7 @@ namespace SearchPanel
                 if (!worldView)
                 {
                     bool isSelected = controller.IsWindowOpened;
-                    row.ToggleableIcon(ref isSelected, ContentFinder<Texture2D>.Get("UI/Lupa(not Pupa)", true), "ZiT_ObjectsSeekerLabel".Translate(), SoundDefOf.Mouseover_ButtonToggle);
+                    row.ToggleableIcon(ref isSelected, Textures.SearchToolIcon, "ZiT_ObjectsSeekerLabel".Translate(), SoundDefOf.Mouseover_ButtonToggle);
                     if (isSelected != controller.IsWindowOpened)
                     {
                         model.Initialize();

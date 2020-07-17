@@ -83,6 +83,7 @@
     <Compile Include="MainWindow.cs" />
     <Compile Include="RequestGroupCategory.cs" />
     <Compile Include="SearchItemFactory.cs" />
+    <Compile Include="Textures.cs" />
     <Compile Include="WindowController.cs" />
     <Compile Include="SeekModel.cs" />
     <Compile Include="Patches.cs" />

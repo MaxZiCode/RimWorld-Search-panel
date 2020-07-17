@@ -12,8 +12,7 @@ namespace SearchPanel
 {
 	public sealed class MainWindow : Window, ITextObserver, ICategoryObserver, ISearchItemObserver
 	{
-		public static readonly Texture2D CollapseTexture = ContentFinder<Texture2D>.Get("UI/Buttons/Dev/Collapse", true);
-		public static readonly Texture2D RevealTexture = ContentFinder<Texture2D>.Get("UI/Buttons/Dev/Reveal", true);
+        private const float scrollSize = 16f;
 
 		private Rect _positionRect;
 		private Vector2 _initialSize = new Vector2(300f, 480f);
@@ -68,7 +67,7 @@ namespace SearchPanel
 			Rect categoriesRect = new Rect(inRect)
 			{
 				y = searchRect.yMax,
-				height = 35f + 16f
+				height = 35f + scrollSize
 			};
 			DrawCategories(categoriesRect);
 
@@ -91,7 +90,7 @@ namespace SearchPanel
 
 			Rect faceRect = new Rect(inRect);
 
-			float catRectSide = faceRect.height - 16f;
+			float catRectSide = faceRect.height - scrollSize;
 			var catRects = _model.Categories.Select((c, i) => (Filter: c, Rect: new Rect() { width = catRectSide, height = catRectSide, x = (catRectSide + gap) * i } ));
 
 			Rect groupRect = new Rect()
@@ -125,60 +124,94 @@ namespace SearchPanel
 
 		private void DrawResults(Rect inRect)
 		{
-			Rect faceRect = inRect;
-			Widgets.DrawMenuSection(faceRect);
+            Rect faceRect = inRect;
+
+            Rect drawMenuRect = new Rect(faceRect)
+            {
+                width = faceRect.width - scrollSize
+            };
+			Widgets.DrawMenuSection(drawMenuRect);
 
 			Text.Font = GameFont.Small;
 
-			var itemRects = _model.SearchItems.Select((si, i) => (Item: si, Rect: new Rect() { width = faceRect.width - 16f, height = Text.LineHeight, y = Text.LineHeight * i }));
+			var itemRects = _model.SearchItems.Select((si, i) => (Item: si, Rect: new Rect() { width = faceRect.width - scrollSize, height = Text.LineHeight, y = Text.LineHeight * i }));
 
-			Rect groupRect = new Rect()
+			Rect resultRect = new Rect()
 			{
-				width = faceRect.width - 16f,
+				width = faceRect.width - scrollSize,
 				height = itemRects.LastOrDefault().Rect.yMax
 			};
 
-			Widgets.BeginScrollView(faceRect, ref _itemsScrollPosition, groupRect);
-			GUI.BeginGroup(groupRect);
+			Widgets.BeginScrollView(faceRect, ref _itemsScrollPosition, resultRect);
+			GUI.BeginGroup(resultRect);
 
 			foreach (var itemRect in itemRects)
 			{
 				Rect curRect = itemRect.Rect;
-				Widgets.Label(curRect, itemRect.Item.Label);
-				Widgets.DrawHighlightIfMouseover(curRect);
+                var item = itemRect.Item;
+
+                Rect collapseButtonRect = curRect;
+                collapseButtonRect.width = collapseButtonRect.height;
+
+                Rect textureRect = collapseButtonRect;
+                textureRect.x = collapseButtonRect.xMax;
+
+                Rect favRect = textureRect;
+                favRect.x = curRect.xMax - favRect.width;
+
+                Rect countRect = favRect;
+                countRect.width = Text.CalcSize(itemRect.Item.Count.ToString()).x;
+                countRect.x = favRect.xMin - countRect.width;
+
+                Rect labelRect = new Rect(curRect)
+                {
+                    xMin = textureRect.xMax,
+                    xMax = countRect.xMin
+                };
+
+                DoCollapseRevealButton(collapseButtonRect);
+                DoTexture(textureRect, item.Texture);
+                DoLabel(labelRect, item.Label);
+                DoCount(countRect, item.Count);
+                DoFavouriteButton(favRect, item);
 			}
 
 			GUI.EndGroup();
 			Widgets.EndScrollView();
 		}
 
-		//public void DoCollapseRevealButton()
-		//{
-		//	// Temporary values
-		//	float x = 0f;
-		//	float y = 0f;
-		//	dynamic node = null;
-		//	bool openMask = false;
+        private void DoFavouriteButton(Rect favRect, SearchItem item)
+        {
+            Widgets.DrawHighlightIfMouseover(favRect);
+            // TODO: Добавлять / удалять из избранного.
+            Widgets.ButtonImage(favRect, Textures.FavoutireButton, false);
+        }
 
-		//	Rect butRect = new Rect(x, y, 18f, 18f);
-			
-		//	Texture2D tex = node.IsOpen(openMask) ? CollapseTexture : RevealTexture;
-		//	if (Widgets.ButtonImage(butRect, tex, true))
-		//	{
-		//		bool flag = node.IsOpen(openMask);
-		//		if (flag)
-		//		{
-		//			SoundDefOf.TabClose.PlayOneShotOnCamera(null);
-		//		}
-		//		else
-		//		{
-		//			SoundDefOf.TabOpen.PlayOneShotOnCamera(null);
-		//		}
-		//		node.SetOpen(openMask, !flag);
-		//	}
-		//}
+        private void DoCount(Rect countRect, int count)
+        {
+            Widgets.Label(countRect, count.ToString());
+        }
 
-		public void AfterUpdateText()
+        private void DoLabel(Rect labelRect, string label)
+        {
+            Widgets.Label(labelRect, label);
+        }
+
+        private void DoTexture(Rect textureRect, Texture2D texture)
+        {
+            Widgets.DrawTextureFitted(textureRect, texture, 1f);
+        }
+
+        private void DoCollapseRevealButton(Rect inRect)
+        {
+            Texture2D tex = true ? Textures.RevealTexture : Textures.CollapseTexture;
+            if (Widgets.ButtonImage(inRect, tex, true))
+            {
+                // TODO: Скрывать / расскрывать.
+            }
+        }
+
+        public void AfterUpdateText()
 		{
 			_text = _model.SearchText;
 		}
