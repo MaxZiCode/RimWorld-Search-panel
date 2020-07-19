@@ -71,6 +71,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Category.cs" />
+    <Compile Include="CategoryViaIgnoreThingCategory.cs" />
+    <Compile Include="CategoryViaThingCategory.cs" />
+    <Compile Include="CategoryViaIgnoreRequestGroup.cs" />
     <Compile Include="ICategoryObserver.cs" />
     <Compile Include="MainMVC.cs" />
     <Compile Include="MapSearcher.cs" />
@@ -81,7 +84,7 @@
     <Compile Include="CategoryFactory.cs" />
     <Compile Include="ITextObserver.cs" />
     <Compile Include="MainWindow.cs" />
-    <Compile Include="RequestGroupCategory.cs" />
+    <Compile Include="CategoryViaRequestGroup.cs" />
     <Compile Include="SearchItemFactory.cs" />
     <Compile Include="Textures.cs" />
     <Compile Include="WindowController.cs" />

@@ -16,6 +16,7 @@ namespace SearchPanel
         private readonly List<ISearchItemObserver> searchItemObservers = new List<ISearchItemObserver>();
 
         private readonly SearchItemFactory searchItemFactory;
+        private readonly CategoryFactory categoryFactory;
 
         private bool hasInitialized;
         private string text;
@@ -53,9 +54,10 @@ namespace SearchPanel
                 NotifyTextObservers();
             }
         }
-        public SeekModel(SearchItemFactory searchItemFactory)
+        public SeekModel(SearchItemFactory searchItemFactory, CategoryFactory categoryFactory)
         {
             this.searchItemFactory = searchItemFactory ?? throw new ArgumentNullException(nameof(searchItemFactory));
+            this.categoryFactory = categoryFactory ?? throw new ArgumentNullException(nameof(searchItemFactory));
         }
 
         private void NotifyTextObservers() => textObservers.ForEach(to => to.AfterUpdateText());
@@ -78,7 +80,7 @@ namespace SearchPanel
         {
             if (!hasInitialized)
             {
-                Categories.AddRange(CategoryFactory.GetCategories());
+                Categories.AddRange(categoryFactory.GetCategories());
                 ActiveCategory = Categories.FirstOrDefault();
                 SearchText = string.Empty;
                 hasInitialized = true;

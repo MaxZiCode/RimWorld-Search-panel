@@ -8,7 +8,7 @@ namespace SearchPanel
 {
     public static class MainMVC
     {
-        public static readonly SeekModel SeekModel = new SeekModel(new MapSearcher());
+        public static readonly SeekModel SeekModel = new SeekModel(new MapSearcher(), new CategoryFactory());
 
         public static readonly WindowController WindowController = new WindowController(SeekModel);
     }

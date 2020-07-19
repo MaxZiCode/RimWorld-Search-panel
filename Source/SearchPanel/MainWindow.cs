@@ -108,13 +108,14 @@ namespace SearchPanel
 			{
 				Rect curRect = catRect.Rect.ContractedBy(2f);
 				Category category = catRect.Filter;
-				Widgets.Label(curRect, category.Label.First().ToString());
 				bool selected = category == _activeCategory;
 				if (SimpleButton(curRect, selected))
 				{
 					selectedCategory = category;
 				}
-			}
+                Widgets.Label(curRect, category.Name.First().ToString());
+                TooltipHandler.TipRegion(curRect, category.Name);
+            }
 
             TurnVerticalScrollToHorizontal();
 

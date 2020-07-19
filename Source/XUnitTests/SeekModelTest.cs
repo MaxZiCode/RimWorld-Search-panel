@@ -9,7 +9,7 @@ namespace XUnitTests
 	public class SeekModelTest
 	{
         SeekModel model;
-        Category category = new EmptyCategory();
+        Category category = Category.Empty;
         UltimateObserver observer = new UltimateObserver();
 
 		[Fact]
@@ -58,7 +58,7 @@ namespace XUnitTests
 
         void SetSeekModel()
         {
-            model = new SeekModel(new EmptySearchItemFactory());
+            model = new SeekModel(new EmptySearchItemFactory(), new CategoryFactory());
             model.Initialize();
         }
 
@@ -110,14 +110,6 @@ namespace XUnitTests
             HasCategoryUpdated = false;
             HasSearchItemUpdated = false;
             HasTextUpdated = false;
-        }
-    }
-
-    public class EmptyCategory : Category
-    {
-        public override IEnumerable<SearchItem> GetFilteredItems(IEnumerable<SearchItem> searchItems)
-        {
-            yield return new SearchItem();
         }
     }
 }
