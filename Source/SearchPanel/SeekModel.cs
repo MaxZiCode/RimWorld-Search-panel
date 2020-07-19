@@ -78,7 +78,7 @@ namespace SearchPanel
         {
             if (!hasInitialized)
             {
-                Categories.AddRange(CategoryFactory.GetFilters());
+                Categories.AddRange(CategoryFactory.GetCategories());
                 ActiveCategory = Categories.FirstOrDefault();
                 SearchText = string.Empty;
                 hasInitialized = true;
