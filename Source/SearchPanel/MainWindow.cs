@@ -116,13 +116,23 @@ namespace SearchPanel
 				}
 			}
 
+            TurnVerticalScrollToHorizontal();
+
 			GUI.EndGroup();
 			Widgets.EndScrollView();
 
 			_controller.ChangeActiveCategory(selectedCategory);
 		}
 
-		private void DrawResults(Rect inRect)
+        private void TurnVerticalScrollToHorizontal()
+        {
+            const float reduceFactor = 3f;
+            var verticalScroll = Event.current.delta.y;
+            Vector2 scrollVector = new Vector2(verticalScroll / reduceFactor, verticalScroll);
+            Event.current.delta = scrollVector;
+        }
+
+        private void DrawResults(Rect inRect)
 		{
             Rect faceRect = inRect;
 
