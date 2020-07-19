@@ -134,11 +134,11 @@ namespace SearchPanel
 
         private void DrawResults(Rect inRect)
 		{
-            Rect faceRect = inRect;
+            Rect faceRect = inRect.ContractedBy(1f);
 
-            Rect drawMenuRect = new Rect(faceRect)
+            Rect drawMenuRect = new Rect(inRect)
             {
-                width = faceRect.width - scrollSize
+                width = inRect.width - scrollSize
             };
 			Widgets.DrawMenuSection(drawMenuRect);
 
