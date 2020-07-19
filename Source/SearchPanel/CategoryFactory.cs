@@ -13,52 +13,42 @@ namespace SearchPanel
         public readonly Category IgnoreCategory;
         public readonly Category Everything;
         public readonly Category CorpsesIgnore;
-        public readonly Category FoodSources;
-        public readonly Category Corpses;
-        public readonly Category Pawns;
-        public readonly Category Medicine;
-        public readonly Category Weapons;
-        public readonly Category Drugs;
-        public readonly Category HarvestablePlants;
-        public readonly Category Plants;
-        public readonly Category Apparel;
 
         public CategoryFactory()
         {
             IgnoreCategory = new CategoryViaIgnoreRequestGroup(ThingRequestGroup.Construction, // Blueprint + BuildingFrame
-                             new CategoryViaIgnoreRequestGroup(ThingRequestGroup.Filth));
+                             new CategoryViaIgnoreRequestGroup(ThingRequestGroup.Filth,
+                             new CategoryViaThingCategory(ThingCategory.Mote,
+                             new CategoryViaThingCategory(ThingCategory.Ethereal))));
             Everything = new CategoryViaRequestGroup(ThingRequestGroup.Everything, IgnoreCategory);
             CorpsesIgnore = new CategoryViaIgnoreRequestGroup(ThingRequestGroup.Corpse);
-            FoodSources = new CategoryViaRequestGroup(ThingRequestGroup.FoodSourceNotPlantOrTree, CorpsesIgnore);
-            Corpses = new CategoryViaRequestGroup(ThingRequestGroup.Corpse);
-            Pawns = new CategoryViaRequestGroup(ThingRequestGroup.Pawn);
-            Medicine = new CategoryViaRequestGroup(ThingRequestGroup.Medicine);
-            Weapons = new CategoryViaRequestGroup(ThingRequestGroup.Weapon);
-            Drugs = new CategoryViaRequestGroup(ThingRequestGroup.Drug);
-            HarvestablePlants = new CategoryViaRequestGroup(ThingRequestGroup.HarvestablePlant);
-            Plants = new CategoryViaRequestGroup(ThingRequestGroup.Plant);
-            Apparel = new CategoryViaRequestGroup(ThingRequestGroup.Apparel);
         }
 
         public virtual IEnumerable<Category> GetCategories()
         {
-            yield return IgnoreCategory;
-            yield return Everything;
-            yield return CorpsesIgnore;
-            yield return FoodSources;
-            yield return Corpses;
-            yield return Pawns;
-            yield return Medicine;
-            yield return Weapons;
-            yield return Drugs;
-            yield return HarvestablePlants;
-            yield return Plants;
-            yield return Apparel;
+#if DEBUG
+            foreach (ThingRequestGroup trg in Enum.GetValues(typeof(ThingRequestGroup)))
+            {
+                yield return new CategoryViaRequestGroup(trg);
+            }
 
             foreach (ThingCategory tc in Enum.GetValues(typeof(ThingCategory)))
             {
                 yield return new CategoryViaThingCategory(tc);
             }
+            yield break;
+#endif
+
+            yield return Everything;
+            yield return new CategoryViaRequestGroup(ThingRequestGroup.FoodSourceNotPlantOrTree, CorpsesIgnore);
+            yield return new CategoryViaRequestGroup(ThingRequestGroup.Corpse);
+            yield return new CategoryViaRequestGroup(ThingRequestGroup.Pawn);
+            yield return new CategoryViaRequestGroup(ThingRequestGroup.Medicine);
+            yield return new CategoryViaRequestGroup(ThingRequestGroup.Weapon);
+            yield return new CategoryViaRequestGroup(ThingRequestGroup.Drug);
+            yield return new CategoryViaRequestGroup(ThingRequestGroup.HarvestablePlant);
+            yield return new CategoryViaRequestGroup(ThingRequestGroup.Plant);
+            yield return new CategoryViaRequestGroup(ThingRequestGroup.Apparel);
         }
     }
 }
