@@ -14,7 +14,6 @@ namespace SearchPanel
 	{
         private const float scrollSize = 16f;
 
-		private Rect _positionRect;
 		private Vector2 _initialSize = new Vector2(300f, 480f);
 		private Vector2 _categoryScrollPosition = new Vector2();
 		private Vector2 _itemsScrollPosition = new Vector2();
@@ -36,14 +35,6 @@ namespace SearchPanel
 			this.closeOnAccept = false;
 			this.focusWhenOpened = true;
 
-			_positionRect = new Rect()
-			{
-				x = UI.screenWidth - InitialSize.x,
-				y = UI.screenHeight - InitialSize.y - 150f,
-				width = InitialSize.x,
-				height = InitialSize.y
-			};
-
 			_controller = controller;
 			_model = model;
 
@@ -54,9 +45,15 @@ namespace SearchPanel
 
 		}
 
-		protected override void SetInitialSizeAndPosition() => windowRect = _positionRect;
+		protected override void SetInitialSizeAndPosition() => windowRect = new Rect()
+        {
+            x = UI.screenWidth - InitialSize.x,
+            y = UI.screenHeight - InitialSize.y - 150f,
+            width = InitialSize.x,
+            height = InitialSize.y
+        };
 
-		public override void DoWindowContents(Rect inRect)
+        public override void DoWindowContents(Rect inRect)
 		{
 			Rect searchRect = new Rect(inRect)
 			{

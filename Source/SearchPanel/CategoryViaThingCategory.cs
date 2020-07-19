@@ -16,7 +16,7 @@ namespace SearchPanel
         public CategoryViaThingCategory(ThingCategory thingCategory, Category child = null) : base(child)
         {
             this.thingCategory = thingCategory;
-            Name = thingCategory.ToString();
+            Name = thingCategory.ToString() + " TG";
         }
 
         protected override IEnumerable<SearchItem> FilterItems(IEnumerable<SearchItem> searchItems)

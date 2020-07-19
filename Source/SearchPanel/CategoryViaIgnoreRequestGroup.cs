@@ -9,8 +9,11 @@ namespace SearchPanel
 {
     public class CategoryViaIgnoreRequestGroup : CategoryViaRequestGroup
     {
+        public override string Name { get; }
+
         public CategoryViaIgnoreRequestGroup(ThingRequestGroup group, Category child = null) : base(group, child)
         {
+            Name = base.Name + " ignore";
         }
 
         protected override bool IsThingDefOfThisCategory(ThingDef def)

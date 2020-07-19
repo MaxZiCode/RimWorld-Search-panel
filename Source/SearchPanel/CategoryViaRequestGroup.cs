@@ -19,7 +19,7 @@ namespace SearchPanel
         public CategoryViaRequestGroup(ThingRequestGroup group, Category child = null) : base(child)
         {
             thingRequestGroup = group;
-            Name = group.ToString();
+            Name = group.ToString() + " RG";
         }
 
         protected override IEnumerable<SearchItem> FilterItems(IEnumerable<SearchItem> searchItems)

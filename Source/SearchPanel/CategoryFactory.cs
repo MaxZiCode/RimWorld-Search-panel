@@ -54,6 +54,11 @@ namespace SearchPanel
             yield return HarvestablePlants;
             yield return Plants;
             yield return Apparel;
+
+            foreach (ThingCategory tc in Enum.GetValues(typeof(ThingCategory)))
+            {
+                yield return new CategoryViaThingCategory(tc);
+            }
         }
     }
 }
