@@ -10,45 +10,35 @@ namespace SearchPanel
 {
     public class CategoryFactory
     {
-        public readonly Category IgnoreCategory;
+        public readonly Category Ignore;
         public readonly Category Everything;
         public readonly Category CorpsesIgnore;
 
         public CategoryFactory()
         {
-            IgnoreCategory = new CategoryViaIgnoreRequestGroup(ThingRequestGroup.Construction, // Blueprint + BuildingFrame
+            Ignore = new CategoryViaIgnoreRequestGroup(ThingRequestGroup.Construction, // Blueprint + BuildingFrame
                              new CategoryViaIgnoreRequestGroup(ThingRequestGroup.Filth,
-                             new CategoryViaThingCategory(ThingCategory.Mote,
-                             new CategoryViaThingCategory(ThingCategory.Ethereal))));
-            Everything = new CategoryViaRequestGroup(ThingRequestGroup.Everything, IgnoreCategory);
-            CorpsesIgnore = new CategoryViaIgnoreRequestGroup(ThingRequestGroup.Corpse);
+                             new CategoryViaIgnoreThingCategory(ThingCategory.Mote,
+                             new CategoryViaIgnoreThingCategory(ThingCategory.Ethereal))));
+            Everything = new CategoryViaRequestGroup(ThingRequestGroup.Everything, Ignore);
+            CorpsesIgnore = new CategoryViaIgnoreRequestGroup(ThingRequestGroup.Corpse, Everything);
         }
 
         public virtual IEnumerable<Category> GetCategories()
         {
-#if DEBUG
-            foreach (ThingRequestGroup trg in Enum.GetValues(typeof(ThingRequestGroup)))
-            {
-                yield return new CategoryViaRequestGroup(trg);
-            }
-
-            foreach (ThingCategory tc in Enum.GetValues(typeof(ThingCategory)))
-            {
-                yield return new CategoryViaThingCategory(tc);
-            }
-            yield break;
-#endif
-
+            // TODO: Favourites
             yield return Everything;
+            yield return new CategoryViaThingCategory(ThingCategory.Building, Everything);
+            // TODO: Terrains
+            yield return new CategoryViaRequestGroup(ThingRequestGroup.Plant, Everything);
+            yield return new CategoryViaRequestGroup(ThingRequestGroup.HarvestablePlant, Everything);
             yield return new CategoryViaRequestGroup(ThingRequestGroup.FoodSourceNotPlantOrTree, CorpsesIgnore);
-            yield return new CategoryViaRequestGroup(ThingRequestGroup.Corpse);
-            yield return new CategoryViaRequestGroup(ThingRequestGroup.Pawn);
-            yield return new CategoryViaRequestGroup(ThingRequestGroup.Medicine);
-            yield return new CategoryViaRequestGroup(ThingRequestGroup.Weapon);
-            yield return new CategoryViaRequestGroup(ThingRequestGroup.Drug);
-            yield return new CategoryViaRequestGroup(ThingRequestGroup.HarvestablePlant);
-            yield return new CategoryViaRequestGroup(ThingRequestGroup.Plant);
-            yield return new CategoryViaRequestGroup(ThingRequestGroup.Apparel);
+            yield return new CategoryViaRequestGroup(ThingRequestGroup.Pawn, Everything);
+            yield return new CategoryViaRequestGroup(ThingRequestGroup.Corpse, Everything);
+            yield return new CategoryViaRequestGroup(ThingRequestGroup.Apparel, Everything);
+            yield return new CategoryViaRequestGroup(ThingRequestGroup.Weapon, Everything);
+            yield return new CategoryViaRequestGroup(ThingRequestGroup.Medicine, Everything);
+            yield return new CategoryViaRequestGroup(ThingRequestGroup.Drug, Everything);
         }
     }
 }
