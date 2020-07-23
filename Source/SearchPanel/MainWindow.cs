@@ -52,7 +52,7 @@ namespace SearchPanel
 
         public override void DoWindowContents(Rect inRect)
 		{
-			Rect searchRect = new Rect(inRect)
+            Rect searchRect = new Rect(inRect)
 			{
 				height = 35f
 			};
@@ -74,13 +74,16 @@ namespace SearchPanel
 
 		private void DrawSearch(Rect inRect)
 		{
-			text = Widgets.TextField(inRect, text);
+            Text.Font = GameFont.Medium;
+            text = Widgets.TextField(inRect, text);
 			controller.ChangeText(text);
 		}
 
 		private void DrawCategories(Rect inRect)
 		{
-			Rect faceRect = new Rect(inRect);
+            Text.Font = GameFont.Small;
+
+            Rect faceRect = new Rect(inRect);
 
 			float catRectSide = faceRect.height - scrollSize;
 			Rect categoryRect = new Rect() { width = catRectSide, height = catRectSide};
@@ -128,18 +131,16 @@ namespace SearchPanel
 
         private void DrawResults(Rect inRect)
 		{
-            Rect faceRect = inRect.ContractedBy(1f);
+			Text.Font = GameFont.Small;
 
+            Rect faceRect = inRect.ContractedBy(1f);
             Rect drawMenuRect = new Rect(inRect)
             {
                 width = inRect.width - scrollSize
             };
 			Widgets.DrawMenuSection(drawMenuRect);
 
-			Text.Font = GameFont.Small;
-
             Rect itemRect = new Rect() { width = faceRect.width - scrollSize, height = Text.LineHeight};
-
             Rect groupRect = new Rect()
             {
                 width = faceRect.width - scrollSize,
