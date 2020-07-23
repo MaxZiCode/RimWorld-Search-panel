@@ -17,10 +17,10 @@ namespace SearchPanel
             var notFoggedCells = map.AllCells.Where(cell => !map.fogGrid.IsFogged(cell));
             var items = from cell in notFoggedCells
                         from thing in map.thingGrid.ThingsListAtFast(cell)
-                        group thing by thing.def
+                        group thing by (thing.def, thing.Stuff)
 
                         into grouped
-                        select new SearchItem(grouped.Key, grouped.Count());
+                        select new SearchItem(grouped.Key.def, grouped.Count(), grouped.Key.Stuff);
 
             var terrains = from cell in notFoggedCells
                            let terrain = cell.GetTerrain(map)

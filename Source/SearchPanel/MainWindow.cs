@@ -171,9 +171,9 @@ namespace SearchPanel
                 };
 
                 DoCollapseRevealButton(collapseButtonRect);
-                DoTexture(textureRect, item.Texture);
-                DoLabel(labelRect, item.Label);
-                DoCount(countRect, item.Count);
+                DoTexture(textureRect, item);
+                DoLabel(labelRect, item);
+                DoCount(countRect, item);
                 DoFavouriteButton(favRect, item);
 
                 itemRect.y += itemRect.height;
@@ -190,19 +190,21 @@ namespace SearchPanel
             Widgets.ButtonImage(favRect, Textures.FavoutireButton, false);
         }
 
-        private void DoCount(Rect countRect, int count)
+        private void DoCount(Rect countRect, SearchItem item)
         {
-            Widgets.Label(countRect, count.ToString());
+            Widgets.Label(countRect, item.Count.ToString());
         }
 
-        private void DoLabel(Rect labelRect, string label)
+        private void DoLabel(Rect labelRect, SearchItem item)
         {
-            Widgets.Label(labelRect, label);
+            Widgets.Label(labelRect, item.Label);
         }
 
-        private void DoTexture(Rect textureRect, Texture2D texture)
+        private void DoTexture(Rect textureRect, SearchItem item)
         {
-            Widgets.DrawTextureFitted(textureRect, texture, 1f);
+            GUI.color = item.Color;
+            Widgets.DrawTextureFitted(textureRect, item.Texture, 1f);
+            GUI.color = Color.white;
         }
 
         private void DoCollapseRevealButton(Rect inRect)

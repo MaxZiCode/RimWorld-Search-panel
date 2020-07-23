@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using RimWorld;
+using UnityEngine;
 using Verse;
 
 namespace SearchPanel
@@ -9,14 +10,17 @@ namespace SearchPanel
 
         public Texture2D Texture { get; set; }
 
+        public Color Color { get; set; }
+
         public int Count { get; set; }
 
         public BuildableDef Def { get; set; }
 
-        public SearchItem(BuildableDef def, int count)
+        public SearchItem(BuildableDef def, int count, ThingDef stuff = null)
         {
-            Label = def.LabelCap;
+            Label = stuff == null ? def.LabelCap.ToString() : $"{def.LabelCap} ({stuff.LabelAsStuff})";
             Texture = def.uiIcon;
+            Color = stuff != null ? def.GetColorForStuff(stuff) : def.uiIconColor;
             Count = count;
             Def = def;
         }
