@@ -14,35 +14,32 @@ namespace SearchPanel
 	{
         private const float scrollSize = 16f;
 
-		private Vector2 _initialSize = new Vector2(300f, 480f);
-		private Vector2 _categoryScrollPosition = new Vector2();
-		private Vector2 _itemsScrollPosition = new Vector2();
-		private string _text;
-		private Category _activeCategory;
-		private SearchItem _activeSearchItem;
+		private Vector2 initialSize = new Vector2(300f, 480f);
+		private Vector2 categoryScrollPosition = new Vector2();
+		private Vector2 itemsScrollPosition = new Vector2();
+		private string text;
+		private Category activeCategory;
+		private SearchItem activeSearchItem;
 
-		private readonly ISeekModel _model;
-		private readonly ISeekController _controller;
+		private readonly ISeekModel model;
+		private readonly ISeekController controller;
 
-		public override Vector2 InitialSize => _initialSize;
+		public override Vector2 InitialSize => initialSize;
 
 		public MainWindow(ISeekController controller, ISeekModel model) : base()
 		{
-			this.doCloseX = false;
-			this.preventDrawTutor = true;
-			this.draggable = false;
-			this.preventCameraMotion = false;
-			this.closeOnAccept = false;
-			this.focusWhenOpened = true;
+			doCloseX = false;
+			preventDrawTutor = true;
+			draggable = false;
+			preventCameraMotion = false;
+			closeOnAccept = false;
+			focusWhenOpened = true;
 
-			_controller = controller;
-			_model = model;
-
-			_model.RegisterObserver((ITextObserver)this);
-			_model.RegisterObserver((ICategoryObserver)this);
-			_model.RegisterObserver((ISearchItemObserver)this);
-
-
+			this.controller = controller;
+			this.model = model;
+			this.model.RegisterObserver((ITextObserver)this);
+			this.model.RegisterObserver((ICategoryObserver)this);
+			this.model.RegisterObserver((ISearchItemObserver)this);
 		}
 
 		protected override void SetInitialSizeAndPosition() => windowRect = new Rect()
@@ -77,41 +74,40 @@ namespace SearchPanel
 
 		private void DrawSearch(Rect inRect)
 		{
-			_text = Widgets.TextField(inRect, _text);
-			_controller.ChangeText(_text);
+			text = Widgets.TextField(inRect, text);
+			controller.ChangeText(text);
 		}
 
 		private void DrawCategories(Rect inRect)
 		{
-			const float gap = 0f;
-
 			Rect faceRect = new Rect(inRect);
 
 			float catRectSide = faceRect.height - scrollSize;
-			var catRects = _model.Categories.Select((c, i) => (Filter: c, Rect: new Rect() { width = catRectSide, height = catRectSide, x = (catRectSide + gap) * i } ));
+			Rect categoryRect = new Rect() { width = catRectSide, height = catRectSide};
 
 			Rect groupRect = new Rect()
 			{
-				width = catRects.LastOrDefault().Rect.xMax,
+				width = categoryRect.width * model.Categories.Count,
 				height = catRectSide
 			};
 
 			Category selectedCategory = null;
 
-			Widgets.BeginScrollView(faceRect, ref _categoryScrollPosition, groupRect);
+			Widgets.BeginScrollView(faceRect, ref categoryScrollPosition, groupRect);
 			GUI.BeginGroup(groupRect);
 
-			foreach (var catRect in catRects)
+			foreach (var category in model.Categories)
 			{
-				Rect curRect = catRect.Rect.ContractedBy(2f);
-				Category category = catRect.Filter;
-				bool selected = category == _activeCategory;
+				Rect curRect = categoryRect.ContractedBy(2f);
+				bool selected = category == activeCategory;
 				if (SimpleButton(curRect, selected))
 				{
 					selectedCategory = category;
 				}
                 Widgets.Label(curRect, category.Name.First().ToString());
                 TooltipHandler.TipRegion(curRect, category.Name);
+
+                categoryRect.x += categoryRect.width;
             }
 
             TurnVerticalScrollToHorizontal();
@@ -119,7 +115,7 @@ namespace SearchPanel
 			GUI.EndGroup();
 			Widgets.EndScrollView();
 
-			_controller.ChangeActiveCategory(selectedCategory);
+			controller.ChangeActiveCategory(selectedCategory);
 		}
 
         private void TurnVerticalScrollToHorizontal()
@@ -142,36 +138,33 @@ namespace SearchPanel
 
 			Text.Font = GameFont.Small;
 
-			var itemRects = _model.SearchItems.Select((si, i) => (Item: si, Rect: new Rect() { width = faceRect.width - scrollSize, height = Text.LineHeight, y = Text.LineHeight * i }));
+            Rect itemRect = new Rect() { width = faceRect.width - scrollSize, height = Text.LineHeight};
 
-			Rect resultRect = new Rect()
+            Rect groupRect = new Rect()
+            {
+                width = faceRect.width - scrollSize,
+                height = itemRect.height * model.SearchItems.Count
+            };
+
+			Widgets.BeginScrollView(faceRect, ref itemsScrollPosition, groupRect);
+			GUI.BeginGroup(groupRect);
+
+			foreach (var item in model.SearchItems)
 			{
-				width = faceRect.width - scrollSize,
-				height = itemRects.LastOrDefault().Rect.yMax
-			};
-
-			Widgets.BeginScrollView(faceRect, ref _itemsScrollPosition, resultRect);
-			GUI.BeginGroup(resultRect);
-
-			foreach (var itemRect in itemRects)
-			{
-				Rect curRect = itemRect.Rect;
-                var item = itemRect.Item;
-
-                Rect collapseButtonRect = curRect;
+                Rect collapseButtonRect = itemRect;
                 collapseButtonRect.width = collapseButtonRect.height;
 
                 Rect textureRect = collapseButtonRect;
                 textureRect.x = collapseButtonRect.xMax;
 
                 Rect favRect = textureRect;
-                favRect.x = curRect.xMax - favRect.width;
+                favRect.x = itemRect.xMax - favRect.width;
 
                 Rect countRect = favRect;
-                countRect.width = Text.CalcSize(itemRect.Item.Count.ToString()).x;
+                countRect.width = Text.CalcSize(item.Count.ToString()).x;
                 countRect.x = favRect.xMin - countRect.width;
 
-                Rect labelRect = new Rect(curRect)
+                Rect labelRect = new Rect(itemRect)
                 {
                     xMin = textureRect.xMax,
                     xMax = countRect.xMin
@@ -182,6 +175,8 @@ namespace SearchPanel
                 DoLabel(labelRect, item.Label);
                 DoCount(countRect, item.Count);
                 DoFavouriteButton(favRect, item);
+
+                itemRect.y += itemRect.height;
 			}
 
 			GUI.EndGroup();
@@ -221,17 +216,17 @@ namespace SearchPanel
 
         public void AfterUpdateText()
 		{
-			_text = _model.SearchText;
+			text = model.SearchText;
 		}
 
 		public void AfterUpdateSearchItem()
 		{
-			_activeSearchItem = _model.ActiveSearchItem;
+			activeSearchItem = model.ActiveSearchItem;
 		}
 
 		public void AfterUpdateCategory()
 		{
-			_activeCategory = _model.ActiveCategory;
+			activeCategory = model.ActiveCategory;
 		}
 
 		private bool SimpleButton(Rect rect, bool selected)

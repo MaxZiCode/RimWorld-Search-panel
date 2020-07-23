@@ -11,6 +11,7 @@ namespace SearchPanel
     {
         private readonly List<SearchItem> allItems = new List<SearchItem>();
         private readonly List<SearchItem> searchItems = new List<SearchItem>();
+        private readonly List<Category> categories = new List<Category>();
         private readonly List<ITextObserver> textObservers = new List<ITextObserver>();
         private readonly List<ICategoryObserver> categoryObservers = new List<ICategoryObserver>();
         private readonly List<ISearchItemObserver> searchItemObservers = new List<ISearchItemObserver>();
@@ -23,7 +24,7 @@ namespace SearchPanel
         private Category activeCategory;
         private SearchItem activeSearchItem;
 
-        public List<Category> Categories { get; } = new List<Category>();
+        public IReadOnlyCollection<Category> Categories => categories;
         public Category ActiveCategory
         {
             get => activeCategory;
@@ -34,7 +35,7 @@ namespace SearchPanel
                 NotifyCategoryObservers();
             }
         }
-        public IEnumerable<SearchItem> SearchItems { get => searchItems; }
+        public IReadOnlyCollection<SearchItem> SearchItems => searchItems; 
         public SearchItem ActiveSearchItem
         {
             get => activeSearchItem;
@@ -80,7 +81,7 @@ namespace SearchPanel
         {
             if (!hasInitialized)
             {
-                Categories.AddRange(categoryFactory.GetCategories());
+                categories.AddRange(categoryFactory.GetCategories());
                 ActiveCategory = Categories.FirstOrDefault();
                 SearchText = string.Empty;
                 hasInitialized = true;
