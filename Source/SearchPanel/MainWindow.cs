@@ -171,10 +171,17 @@ namespace SearchPanel
                     xMax = countRect.xMin
                 };
 
+                Rect buttonRect = new Rect(itemRect)
+                {
+                    xMin = textureRect.xMin,
+                    xMax = countRect.xMax
+                };
+
                 DoCollapseRevealButton(collapseButtonRect);
                 DoTexture(textureRect, item);
                 DoLabel(labelRect, item);
                 DoCount(countRect, item);
+                DoSearchButton(buttonRect, item);
                 DoFavouriteButton(favRect, item);
 
                 itemRect.y += itemRect.height;
@@ -199,6 +206,12 @@ namespace SearchPanel
         private void DoLabel(Rect labelRect, SearchItem item)
         {
             Widgets.Label(labelRect, item.Label);
+        }
+
+        private void DoSearchButton(Rect buttonRect, SearchItem item)
+        {
+            Widgets.DrawHighlightIfMouseover(buttonRect);
+            TooltipHandler.TipRegion(buttonRect, item.Label);
         }
 
         private void DoTexture(Rect textureRect, SearchItem item)
