@@ -14,6 +14,7 @@ namespace SearchPanel
         {
             Map map = Current.Game.CurrentMap;
             var items = from loc in map.AllCells
+                        where !map.fogGrid.IsFogged(loc)
                         select map.thingGrid.ThingsListAtFast(loc)
 
                         into things
