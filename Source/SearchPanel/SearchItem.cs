@@ -18,7 +18,7 @@ namespace SearchPanel
 
         public SearchItem(BuildableDef def, int count, ThingDef stuff = null)
         {
-            Label = stuff == null ? def.LabelCap.ToString() : $"{def.LabelCap} ({stuff.LabelAsStuff})";
+            Label = GenLabel.ThingLabel(def, stuff);
             Texture = def.uiIcon;
             Color = stuff != null ? def.GetColorForStuff(stuff) : def.uiIconColor;
             Count = count;
