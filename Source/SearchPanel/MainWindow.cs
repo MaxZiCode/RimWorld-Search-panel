@@ -212,6 +212,11 @@ namespace SearchPanel
         {
             Widgets.DrawHighlightIfMouseover(buttonRect);
             TooltipHandler.TipRegion(buttonRect, item.Label);
+
+            if (Widgets.ButtonInvisible(buttonRect))
+            {
+                controller.ChangeActiveSearchItem(item);
+            }
         }
 
         private void DoTexture(Rect textureRect, SearchItem item)

@@ -54,6 +54,17 @@ namespace SearchPanel
             }
         }
 
+        [HarmonyPatch(typeof(SelectionDrawer), nameof(SelectionDrawer.DrawSelectionOverlays), MethodType.Normal)]
+        class Patch_DrawSelectionOverlays
+        {
+            static void Postfix()
+            {
+                var locations = MainMVC.SeekModel.ActiveSearchItem.Locations;
+                if (locations != null)
+                    GenDraw.DrawFieldEdges(locations, Color.magenta);
+            }
+        }
+
         //[HarmonyPatch(typeof(MemoryUtility), "ClearAllMapsAndWorld", MethodType.Normal)]
         //class Patch_ClearAllMapsAndWorld
         //{
