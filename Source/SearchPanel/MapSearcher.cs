@@ -20,14 +20,14 @@ namespace SearchPanel
                         group thing by (thing.def, thing.Stuff)
 
                         into grouped
-                        select new SearchItem(grouped.Key.def, grouped.Count(), grouped.Key.Stuff);
+                        select new SearchItem(grouped.Key.def, grouped.Select(t => t.Position), grouped.Count(), grouped.Key.Stuff);
 
             var terrains = from cell in notFoggedCells
                            let terrain = cell.GetTerrain(map)
-                           group terrain by terrain
+                           group (terrain, cell) by terrain
 
                            into grouped
-                           select new SearchItem(grouped.Key, grouped.Count());
+                           select new SearchItem(grouped.Key, grouped.Select(g => g.cell), grouped.Count());
 
             return items.Concat(terrains).OrderBy(item => item.Label);
         }
