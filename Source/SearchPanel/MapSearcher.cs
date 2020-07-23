@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 using Verse;
@@ -13,27 +14,22 @@ namespace SearchPanel
         public override IEnumerable<SearchItem> GetSearchItems()
         {
             Map map = Current.Game.CurrentMap;
-            var items = from loc in map.AllCells
-                        where !map.fogGrid.IsFogged(loc)
-                        select map.thingGrid.ThingsListAtFast(loc)
-
-                        into things
-                        from thing in things
+            var notFoggedCells = map.AllCells.Where(cell => !map.fogGrid.IsFogged(cell));
+            var items = from cell in notFoggedCells
+                        from thing in map.thingGrid.ThingsListAtFast(cell)
                         group thing by thing.def
 
                         into grouped
-                        let def = grouped.Key
-                        let label = def.LabelCap
-                        orderby label.ToString()
-                        select new SearchItem
-                        {
-                            Label = label,
-                            Texture = def.uiIcon,
-                            Count = grouped.Count(),
-                            Def = def
-                        };
+                        select new SearchItem(grouped.Key, grouped.Count());
 
-            return items;
+            var terrains = from cell in notFoggedCells
+                           let terrain = cell.GetTerrain(map)
+                           group terrain by terrain
+
+                           into grouped
+                           select new SearchItem(grouped.Key, grouped.Count());
+
+            return items.Concat(terrains).OrderBy(item => item.Label);
         }
     }
 }

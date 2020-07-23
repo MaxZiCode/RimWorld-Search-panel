@@ -29,7 +29,7 @@ namespace SearchPanel
             // TODO: Favourites
             yield return Everything;
             yield return new CategoryViaThingCategory(ThingCategory.Building, Everything);
-            // TODO: Terrains
+            yield return new TerrainCategory();
             yield return new CategoryViaRequestGroup(ThingRequestGroup.Plant, Everything);
             yield return new CategoryViaRequestGroup(ThingRequestGroup.HarvestablePlant, Everything);
             yield return new CategoryViaRequestGroup(ThingRequestGroup.FoodSourceNotPlantOrTree, CorpsesIgnore);

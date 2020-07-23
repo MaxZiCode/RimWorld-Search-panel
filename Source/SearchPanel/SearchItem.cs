@@ -11,6 +11,14 @@ namespace SearchPanel
 
         public int Count { get; set; }
 
-        public Def Def { get; set; }
+        public BuildableDef Def { get; set; }
+
+        public SearchItem(BuildableDef def, int count)
+        {
+            Label = def.LabelCap;
+            Texture = def.uiIcon;
+            Count = count;
+            Def = def;
+        }
     }
 }

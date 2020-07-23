@@ -86,6 +86,7 @@
     <Compile Include="MainWindow.cs" />
     <Compile Include="CategoryViaRequestGroup.cs" />
     <Compile Include="SearchItemFactory.cs" />
+    <Compile Include="TerrainCategory.cs" />
     <Compile Include="Textures.cs" />
     <Compile Include="WindowController.cs" />
     <Compile Include="SeekModel.cs" />
