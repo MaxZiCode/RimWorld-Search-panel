@@ -28,7 +28,8 @@ namespace SearchPanel
                         into thingsWithCellsByDefAndStuff
                         let def = thingsWithCellsByDefAndStuff.Key.def
                         let stuff = thingsWithCellsByDefAndStuff.Key.Stuff
-                        select new SearchItem(def, thingsWithCellsByDefAndStuff, thingsWithCellsByDefAndStuff.Count(), stuff);
+                        let count = thingsWithCellsByDefAndStuff.Select(g => (Thing)g.Object).Sum(t => t.stackCount)
+                        select new SearchItem(def, thingsWithCellsByDefAndStuff, count, stuff);
 
             var terrains = from cell in notFoggedCells
                            let terrain = cell.GetTerrain(map)
