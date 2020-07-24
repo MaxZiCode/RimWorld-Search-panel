@@ -77,6 +77,7 @@
     <Compile Include="ICategoryObserver.cs" />
     <Compile Include="MainMVC.cs" />
     <Compile Include="MapSearcher.cs" />
+    <Compile Include="ObjectWithCells.cs" />
     <Compile Include="SearchItem.cs" />
     <Compile Include="ISearchItemObserver.cs" />
     <Compile Include="ISeekController.cs" />
