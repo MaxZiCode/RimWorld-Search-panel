@@ -2,8 +2,8 @@
 
 namespace SearchPanel
 {
-	public abstract class Category
-	{
+    public abstract class Category
+    {
         private class EmptyCategory : Category
         {
             public override string Name => "Empty";

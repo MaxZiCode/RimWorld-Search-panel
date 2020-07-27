@@ -75,8 +75,8 @@
     <Compile Include="CategoryViaThingCategory.cs" />
     <Compile Include="CategoryViaIgnoreRequestGroup.cs" />
     <Compile Include="ICategoryObserver.cs" />
+    <Compile Include="ItemFactory.cs" />
     <Compile Include="MainMVC.cs" />
-    <Compile Include="MapSearcher.cs" />
     <Compile Include="ObjectWithCells.cs" />
     <Compile Include="SearchItem.cs" />
     <Compile Include="ISearchItemObserver.cs" />
@@ -88,7 +88,10 @@
     <Compile Include="CategoryViaRequestGroup.cs" />
     <Compile Include="SearchItemFactory.cs" />
     <Compile Include="TerrainCategory.cs" />
+    <Compile Include="TerrainFactory.cs" />
     <Compile Include="Textures.cs" />
+    <Compile Include="MapSearcher.cs" />
+    <Compile Include="ThingFactory.cs" />
     <Compile Include="WindowController.cs" />
     <Compile Include="SeekModel.cs" />
     <Compile Include="Patches.cs" />

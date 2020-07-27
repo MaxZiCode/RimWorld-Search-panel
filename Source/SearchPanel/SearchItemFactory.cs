@@ -10,6 +10,10 @@ namespace SearchPanel
 {
     public abstract class SearchItemFactory
     {
-        public abstract IEnumerable<SearchItem> GetSearchItems();
+        public IEnumerable<SearchItem> GetSearchItems(Map map) => GetMapItems(map).Concat(GetTerrains(map));
+
+        public abstract IEnumerable<SearchItem> GetTerrains(Map map);
+
+        public abstract IEnumerable<SearchItem> GetMapItems(Map map);
     }
 }

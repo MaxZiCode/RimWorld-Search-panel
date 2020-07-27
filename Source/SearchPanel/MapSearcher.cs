@@ -1,46 +1,50 @@
-﻿using RimWorld;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using UnityEngine;
 using Verse;
 
 namespace SearchPanel
 {
     public class MapSearcher : SearchItemFactory
     {
-        public override IEnumerable<SearchItem> GetSearchItems()
+        public readonly ThingFactory thingFactory;
+
+        public readonly TerrainFactory terrainFactory;
+
+        public MapSearcher(ThingFactory thingFactory, TerrainFactory terrainFactory)
         {
-            Map map = Current.Game.CurrentMap;
-            var notFoggedCells = map.AllCells.Where(cell => !map.fogGrid.IsFogged(cell));
-            var items = from cell in notFoggedCells
-                        from thing in map.thingGrid.ThingsListAtFast(cell)
-                        group cell by thing
+            this.thingFactory = thingFactory;
+            this.terrainFactory = terrainFactory;
+        }
 
-                        into cellsByThing
-                        let thing = cellsByThing.Key
-                        let thingsWithCells = new ObjectWithCells(thing, cellsByThing)
-                        group thingsWithCells by (thing.def, thing.Stuff)
+        public override IEnumerable<SearchItem> GetMapItems(Map map)
+        {
+            ThingOwner thingOwner = map.GetDirectlyHeldThings();
+            return from thing in thingFactory.GetThings(map)
+                   group thing by (thing.def, thing.Stuff)
 
-                        into thingsWithCellsByDefAndStuff
-                        let def = thingsWithCellsByDefAndStuff.Key.def
-                        let stuff = thingsWithCellsByDefAndStuff.Key.Stuff
-                        let count = thingsWithCellsByDefAndStuff.Select(g => (Thing)g.Object).Sum(t => t.stackCount)
-                        select new SearchItem(def, thingsWithCellsByDefAndStuff, count, stuff);
+                   into thingsByDef
+                   let def = thingsByDef.Key.def
+                   let objectWithCells = thingsByDef.Select(t => new ObjectWithCells(t, new[] { t.Position }))
+                   let count = thingOwner.TotalStackCountOfDef(def)
+                   let stuff = thingsByDef.Key.Stuff
+                   select new SearchItem(def, objectWithCells, count, stuff);
+        }
 
-            var terrains = from cell in notFoggedCells
-                           let terrain = cell.GetTerrain(map)
-                           group cell by terrain
+        public override IEnumerable<SearchItem> GetTerrains(Map map)
+        {
+            var terrains = terrainFactory.GetTerrains(map);
+            var allTerrainAndCells = terrains.Select((t, index) => (Terrain: t, Cell: CellIndicesUtility.IndexToCell(index, map.Size.x)));
 
-                           into cellsbyTerrain
-                           let terrainsWithCells = new ObjectWithCells(cellsbyTerrain.Key, cellsbyTerrain)
-                           let def = cellsbyTerrain.Key
-                           select new SearchItem(def, new[] { terrainsWithCells }, cellsbyTerrain.Count());
+            return from terrainAndCell in allTerrainAndCells
+                   group terrainAndCell.Cell by terrainAndCell.Terrain
 
-            return items.Concat(terrains).OrderBy(item => item.Label);
+                   into cellsByTerrain
+                   let def = cellsByTerrain.Key
+                   let objectWithCells = new[] { new ObjectWithCells(def, cellsByTerrain) }
+                   select new SearchItem(def, objectWithCells, cellsByTerrain.Count());
         }
     }
 }

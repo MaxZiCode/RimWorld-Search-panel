@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Verse;
 
 namespace SearchPanel
 {
@@ -25,6 +26,7 @@ namespace SearchPanel
         private SearchItem activeSearchItem;
 
         public IReadOnlyCollection<Category> Categories => categories;
+
         public Category ActiveCategory
         {
             get => activeCategory;
@@ -35,7 +37,9 @@ namespace SearchPanel
                 NotifyCategoryObservers();
             }
         }
-        public IReadOnlyCollection<SearchItem> SearchItems => searchItems; 
+
+        public IReadOnlyCollection<SearchItem> SearchItems => searchItems;
+
         public SearchItem ActiveSearchItem
         {
             get => activeSearchItem;
@@ -45,6 +49,7 @@ namespace SearchPanel
                 NotifySearchItemObservers();
             }
         }
+
         public string SearchText
         {
             get => text;
@@ -55,6 +60,7 @@ namespace SearchPanel
                 NotifyTextObservers();
             }
         }
+
         public SeekModel(SearchItemFactory searchItemFactory, CategoryFactory categoryFactory)
         {
             this.searchItemFactory = searchItemFactory ?? throw new ArgumentNullException(nameof(searchItemFactory));
@@ -121,7 +127,8 @@ namespace SearchPanel
         public void UpdateAllItems()
         {
             allItems.Clear();
-            allItems.AddRange(searchItemFactory.GetSearchItems());
+            var orderedItems = searchItemFactory.GetSearchItems(Current.Game.CurrentMap).OrderBy(item => item.Label);
+            allItems.AddRange(orderedItems);
         }
 
         public void UpdateSearchItems()
