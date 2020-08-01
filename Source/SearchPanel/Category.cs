@@ -1,33 +1,27 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using Verse;
 
 namespace SearchPanel
 {
-    public abstract class Category
+    public class Category
     {
-        private class EmptyCategory : Category
-        {
-            public override string Name => "Empty";
+        protected readonly Filter<Thing> filterThing;
+        protected readonly Filter<TerrainDef> filterTerrain;
+        protected readonly SearchItemFactory searchItemFactory;
 
-            protected override IEnumerable<SearchItem> FilterItems(IEnumerable<SearchItem> searchItems) => searchItems;
+        public Category(Filter<Thing> filterThing, Filter<TerrainDef> filterTerrain, SearchItemFactory searchItemFactory)
+        {
+            this.filterThing = filterThing;
+            this.filterTerrain = filterTerrain;
+            this.searchItemFactory = searchItemFactory;
         }
 
-        public static readonly Category Empty = new EmptyCategory();
-
-        protected readonly Category childCategory;
-
-        public abstract string Name { get; }
-
-        protected Category(Category child = null)
+        public IEnumerable<SearchItem> GetItems(Map map)
         {
-            childCategory = child;
+            var thingItems = searchItemFactory.GetThingItems(map);
+            var terrainItems = searchItemFactory.GetTerrainItems(map);
+            return thingItems.Concat(terrainItems);
         }
-
-        public IEnumerable<SearchItem> GetFilteredItems(IEnumerable<SearchItem> searchItems)
-        {
-            var childFilteredItems = childCategory?.GetFilteredItems(searchItems) ?? searchItems;
-            return FilterItems(childFilteredItems);
-        }
-
-        protected abstract IEnumerable<SearchItem> FilterItems(IEnumerable<SearchItem> searchItems);
     }
 }

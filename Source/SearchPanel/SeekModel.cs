@@ -17,7 +17,6 @@ namespace SearchPanel
         private readonly List<ICategoryObserver> categoryObservers = new List<ICategoryObserver>();
         private readonly List<ISearchItemObserver> searchItemObservers = new List<ISearchItemObserver>();
 
-        private readonly SearchItemFactory searchItemFactory;
         private readonly CategoryFactory categoryFactory;
 
         private bool hasInitialized;
@@ -61,10 +60,9 @@ namespace SearchPanel
             }
         }
 
-        public SeekModel(SearchItemFactory searchItemFactory, CategoryFactory categoryFactory)
+        public SeekModel(CategoryFactory categoryFactory)
         {
-            this.searchItemFactory = searchItemFactory ?? throw new ArgumentNullException(nameof(searchItemFactory));
-            this.categoryFactory = categoryFactory ?? throw new ArgumentNullException(nameof(searchItemFactory));
+            this.categoryFactory = categoryFactory;
         }
 
         private void NotifyTextObservers() => textObservers.ForEach(to => to.AfterUpdateText());
@@ -127,7 +125,7 @@ namespace SearchPanel
         public void UpdateAllItems()
         {
             allItems.Clear();
-            var orderedItems = searchItemFactory.GetSearchItems(Current.Game.CurrentMap).OrderBy(item => item.Label);
+            var orderedItems = ActiveCategory.GetItems(Current.Game.CurrentMap).OrderBy(item => item.Label);
             allItems.AddRange(orderedItems);
         }
 
@@ -141,7 +139,7 @@ namespace SearchPanel
             IEnumerable<SearchItem> items = allItems;
             if (activeCategory != null)
             {
-                items = activeCategory.GetFilteredItems(items);
+                items = allItems;
             }
             if (!string.IsNullOrEmpty(text))
             {

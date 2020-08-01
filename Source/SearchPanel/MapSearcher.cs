@@ -19,7 +19,7 @@ namespace SearchPanel
             this.terrainFactory = terrainFactory;
         }
 
-        public override IEnumerable<SearchItem> GetMapItems(Map map)
+        public override IEnumerable<SearchItem> GetThingItems(Map map)
         {
             ThingOwner thingOwner = map.GetDirectlyHeldThings();
             return from thing in thingFactory.GetThings(map)
@@ -33,7 +33,7 @@ namespace SearchPanel
                    select new SearchItem(def, objectWithCells, count, stuff);
         }
 
-        public override IEnumerable<SearchItem> GetTerrains(Map map)
+        public override IEnumerable<SearchItem> GetTerrainItems(Map map)
         {
             var terrains = terrainFactory.GetTerrains(map);
             var allTerrainAndCells = terrains.Select((t, index) => (Terrain: t, Cell: CellIndicesUtility.IndexToCell(index, map.Size.x)));
