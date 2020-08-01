@@ -82,8 +82,8 @@ namespace SearchPanel
             return GetCategory(anotherFilterThing);
         }
 
-        protected Category GetCategory(Filter<Thing> filterThingAnother) => new Category(filterThingAnother, filterTerrain, defaultItemFactory);
+        protected Category GetCategory(Filter<Thing> filterThingAnother) => new Category(filterThingAnother, filterTerrain, searchItemFactory);
 
-        protected Category GetCategory() => new Category(filterThing, filterTerrain, defaultItemFactory);
+        protected Category GetCategory() => new Category(filterThing, filterTerrain, searchItemFactory);
     }
 }
