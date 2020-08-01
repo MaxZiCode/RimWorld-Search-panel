@@ -34,12 +34,12 @@ namespace SearchPanel
         //}
 
         [HarmonyPatch(typeof(PlaySettings), "DoPlaySettingsGlobalControls", MethodType.Normal)]
-        class Patch_DoPlaySettingsGlobalControls
+        private class Patch_DoPlaySettingsGlobalControls
         {
-            static void Postfix(WidgetRow row, bool worldView)
+            private static void Postfix(WidgetRow row, bool worldView)
             {
                 var model = MainMVC.SeekModel;
-                var controller = MainMVC.WindowController;
+                var controller = MainMVC.MainWindowController;
 
                 if (!worldView)
                 {
@@ -55,9 +55,9 @@ namespace SearchPanel
         }
 
         [HarmonyPatch(typeof(SelectionDrawer), nameof(SelectionDrawer.DrawSelectionOverlays), MethodType.Normal)]
-        class Patch_DrawSelectionOverlays
+        private class Patch_DrawSelectionOverlays
         {
-            static void Postfix()
+            private static void Postfix()
             {
                 var locations = MainMVC.SeekModel.ActiveSearchItem.Cells;
                 if (locations != null)

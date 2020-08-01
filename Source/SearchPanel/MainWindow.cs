@@ -10,39 +10,39 @@ using RimWorld;
 
 namespace SearchPanel
 {
-	public sealed class MainWindow : Window, ITextObserver, ICategoryObserver, ISearchItemObserver
-	{
+    public sealed class MainWindow : Window, ITextObserver, ICategoryObserver, ISearchItemObserver
+    {
         private const float scrollSize = 16f;
 
-		private Vector2 initialSize = new Vector2(300f, 480f);
-		private Vector2 categoryScrollPosition = new Vector2();
-		private Vector2 itemsScrollPosition = new Vector2();
-		private string text;
-		private Category activeCategory;
-		private SearchItem activeSearchItem;
+        private Vector2 initialSize = new Vector2(300f, 480f);
+        private Vector2 categoryScrollPosition = new Vector2();
+        private Vector2 itemsScrollPosition = new Vector2();
+        private string text;
+        private Category activeCategory;
+        private SearchItem activeSearchItem;
 
-		private readonly ISeekModel model;
-		private readonly ISeekController controller;
+        private readonly ISeekModel model;
+        private readonly ISeekController controller;
 
-		public override Vector2 InitialSize => initialSize;
+        public override Vector2 InitialSize => initialSize;
 
-		public MainWindow(ISeekController controller, ISeekModel model) : base()
-		{
-			doCloseX = false;
-			preventDrawTutor = true;
-			draggable = false;
-			preventCameraMotion = false;
-			closeOnAccept = false;
-			focusWhenOpened = true;
+        public MainWindow(ISeekController controller, ISeekModel model) : base()
+        {
+            doCloseX = false;
+            preventDrawTutor = true;
+            draggable = false;
+            preventCameraMotion = false;
+            closeOnAccept = false;
+            focusWhenOpened = true;
 
-			this.controller = controller;
-			this.model = model;
-			this.model.RegisterObserver((ITextObserver)this);
-			this.model.RegisterObserver((ICategoryObserver)this);
-			this.model.RegisterObserver((ISearchItemObserver)this);
-		}
+            this.controller = controller;
+            this.model = model;
+            this.model.RegisterObserver((ITextObserver)this);
+            this.model.RegisterObserver((ICategoryObserver)this);
+            this.model.RegisterObserver((ISearchItemObserver)this);
+        }
 
-		protected override void SetInitialSizeAndPosition() => windowRect = new Rect()
+        protected override void SetInitialSizeAndPosition() => windowRect = new Rect()
         {
             x = UI.screenWidth - InitialSize.x,
             y = UI.screenHeight - InitialSize.y - 150f,
@@ -51,62 +51,62 @@ namespace SearchPanel
         };
 
         public override void DoWindowContents(Rect inRect)
-		{
+        {
             Rect searchRect = new Rect(inRect)
-			{
-				height = 35f
-			};
-			DrawSearch(searchRect);
+            {
+                height = 35f
+            };
+            DrawSearch(searchRect);
 
-			Rect categoriesRect = new Rect(inRect)
-			{
-				y = searchRect.yMax,
-				height = 35f + scrollSize
-			};
-			DrawCategories(categoriesRect);
+            Rect categoriesRect = new Rect(inRect)
+            {
+                y = searchRect.yMax,
+                height = 35f + scrollSize
+            };
+            DrawCategories(categoriesRect);
 
-			Rect resultsRect = new Rect(inRect)
-			{
-				yMin = categoriesRect.yMax,
-			};
-			DrawResults(resultsRect);
-		}
+            Rect resultsRect = new Rect(inRect)
+            {
+                yMin = categoriesRect.yMax,
+            };
+            DrawResults(resultsRect);
+        }
 
-		private void DrawSearch(Rect inRect)
-		{
+        private void DrawSearch(Rect inRect)
+        {
             Text.Font = GameFont.Medium;
             text = Widgets.TextField(inRect, text);
-			controller.ChangeText(text);
-		}
+            controller.ChangeText(text);
+        }
 
-		private void DrawCategories(Rect inRect)
-		{
+        private void DrawCategories(Rect inRect)
+        {
             Text.Font = GameFont.Small;
 
             Rect faceRect = new Rect(inRect);
 
-			float catRectSide = faceRect.height - scrollSize;
-			Rect categoryRect = new Rect() { width = catRectSide, height = catRectSide};
+            float catRectSide = faceRect.height - scrollSize;
+            Rect categoryRect = new Rect() { width = catRectSide, height = catRectSide };
 
-			Rect groupRect = new Rect()
-			{
-				width = categoryRect.width * model.Categories.Count,
-				height = catRectSide
-			};
+            Rect groupRect = new Rect()
+            {
+                width = categoryRect.width * model.Categories.Count,
+                height = catRectSide
+            };
 
-			Category selectedCategory = null;
+            Category selectedCategory = null;
 
-			Widgets.BeginScrollView(faceRect, ref categoryScrollPosition, groupRect);
-			GUI.BeginGroup(groupRect);
+            Widgets.BeginScrollView(faceRect, ref categoryScrollPosition, groupRect);
+            GUI.BeginGroup(groupRect);
 
-			foreach (var category in model.Categories)
-			{
-				Rect curRect = categoryRect.ContractedBy(2f);
-				bool selected = category == activeCategory;
-				if (SimpleButton(curRect, selected))
-				{
-					selectedCategory = category;
-				}
+            foreach (var category in model.Categories)
+            {
+                Rect curRect = categoryRect.ContractedBy(2f);
+                bool selected = category == activeCategory;
+                if (SimpleButton(curRect, selected))
+                {
+                    selectedCategory = category;
+                }
                 Widgets.Label(curRect, category.Name.First().ToString());
                 TooltipHandler.TipRegion(curRect, category.Name);
 
@@ -115,11 +115,11 @@ namespace SearchPanel
 
             TurnVerticalScrollToHorizontal();
 
-			GUI.EndGroup();
-			Widgets.EndScrollView();
+            GUI.EndGroup();
+            Widgets.EndScrollView();
 
-			controller.ChangeActiveCategory(selectedCategory);
-		}
+            controller.ChangeActiveCategory(selectedCategory);
+        }
 
         private void TurnVerticalScrollToHorizontal()
         {
@@ -130,28 +130,28 @@ namespace SearchPanel
         }
 
         private void DrawResults(Rect inRect)
-		{
-			Text.Font = GameFont.Small;
+        {
+            Text.Font = GameFont.Small;
 
             Rect faceRect = inRect.ContractedBy(1f);
             Rect drawMenuRect = new Rect(inRect)
             {
                 width = inRect.width - scrollSize
             };
-			Widgets.DrawMenuSection(drawMenuRect);
+            Widgets.DrawMenuSection(drawMenuRect);
 
-            Rect itemRect = new Rect() { width = faceRect.width - scrollSize, height = Text.LineHeight};
+            Rect itemRect = new Rect() { width = faceRect.width - scrollSize, height = Text.LineHeight };
             Rect groupRect = new Rect()
             {
                 width = faceRect.width - scrollSize,
                 height = itemRect.height * model.SearchItems.Count
             };
 
-			Widgets.BeginScrollView(faceRect, ref itemsScrollPosition, groupRect);
-			GUI.BeginGroup(groupRect);
+            Widgets.BeginScrollView(faceRect, ref itemsScrollPosition, groupRect);
+            GUI.BeginGroup(groupRect);
 
-			foreach (var item in model.SearchItems)
-			{
+            foreach (var item in model.SearchItems)
+            {
                 Rect collapseButtonRect = itemRect;
                 collapseButtonRect.width = collapseButtonRect.height;
 
@@ -185,11 +185,11 @@ namespace SearchPanel
                 DoFavouriteButton(favRect, item);
 
                 itemRect.y += itemRect.height;
-			}
+            }
 
-			GUI.EndGroup();
-			Widgets.EndScrollView();
-		}
+            GUI.EndGroup();
+            Widgets.EndScrollView();
+        }
 
         private void DoFavouriteButton(Rect favRect, SearchItem item)
         {
@@ -236,24 +236,24 @@ namespace SearchPanel
         }
 
         public void AfterUpdateText()
-		{
-			text = model.SearchText;
-		}
+        {
+            text = model.SearchText;
+        }
 
-		public void AfterUpdateSearchItem()
-		{
-			activeSearchItem = model.ActiveSearchItem;
-		}
+        public void AfterUpdateSearchItem()
+        {
+            activeSearchItem = model.ActiveSearchItem;
+        }
 
-		public void AfterUpdateCategory()
-		{
-			activeCategory = model.ActiveCategory;
-		}
+        public void AfterUpdateCategory()
+        {
+            activeCategory = model.ActiveCategory;
+        }
 
-		private bool SimpleButton(Rect rect, bool selected)
-		{
-			Widgets.DrawOptionBackground(rect, selected);
-			return Widgets.ButtonInvisible(rect);
-		}
-	}
+        private bool SimpleButton(Rect rect, bool selected)
+        {
+            Widgets.DrawOptionBackground(rect, selected);
+            return Widgets.ButtonInvisible(rect);
+        }
+    }
 }

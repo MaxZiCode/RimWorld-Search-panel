@@ -15,6 +15,8 @@ namespace SearchPanel
         public static SearchItemFactory SearchItemFactory { get; set; } = new MapSearcher(ThingFactory, TerrainFactory);
         public static CategoryFactory CategoryFactory { get; set; } = new CategoryFactory(SearchItemFactory);
         public static ISeekModel SeekModel { get; set; } = new SeekModel(CategoryFactory);
-        public static ISeekController WindowController { get; set; } = new WindowController(SeekModel);
+        public static ISeekController SeekController { get; set; } = new SeekController(SeekModel);
+        public static Window MainWindow { get; set; } = new MainWindow(SeekController, SeekModel);
+        public static WindowController MainWindowController { get; set; } = new WindowController(MainWindow);
     }
 }

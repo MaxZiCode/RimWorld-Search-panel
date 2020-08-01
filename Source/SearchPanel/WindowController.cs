@@ -1,5 +1,4 @@
-﻿using RimWorld;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,65 +7,27 @@ using Verse;
 
 namespace SearchPanel
 {
-	public class WindowController : ISeekController
-	{
-		private readonly ISeekModel _model;
-		private readonly MainWindow _mainWindow;
+    public class WindowController
+    {
+        private readonly Window window;
 
-		public bool IsWindowOpened => Find.WindowStack.IsOpen(_mainWindow.GetType());
+        public WindowController(Window window)
+        {
+            this.window = window;
+        }
 
-		public WindowController(ISeekModel model)
-		{
-			this._model = model ?? throw new ArgumentNullException(nameof(model));
-			_mainWindow = new MainWindow(this, _model);
-		}
+        public bool IsWindowOpened => Find.WindowStack.IsOpen(window.GetType());
 
-		public void ToggleWindow()
-		{
-			if (!IsWindowOpened)
-			{
-				Find.WindowStack.Add(_mainWindow);
-			}
-			else
-			{
-				Find.WindowStack.TryRemove(_mainWindow, false);
-			}	
-		}
-
-		public void AddFavourite(SearchItem item)
-		{
-			_model.AddFavourite(item);
-		}
-
-		public void ChangeActiveCategory(Category category)
-		{
-			if (category == null)
-				return;
-
-			if (_model.ActiveCategory == category)
-			{
-				_model.ActiveCategory = null;
-			}
-			else
-			{
-				_model.ActiveCategory = category;
-			}
-		}
-
-		public void ChangeActiveSearchItem(SearchItem item)
-		{
-			_model.ActiveSearchItem = item;
-		}
-
-		public void ChangeText(string text)
-		{
-			if (text != _model.SearchText)
-				_model.SearchText = text;
-		}
-
-		public void RemoveFavourite(SearchItem item)
-		{
-			_model.RemoveFavourite(item);
-		}
-	}
+        public void ToggleWindow()
+        {
+            if (!IsWindowOpened)
+            {
+                Find.WindowStack.Add(window);
+            }
+            else
+            {
+                Find.WindowStack.TryRemove(window, false);
+            }
+        }
+    }
 }
