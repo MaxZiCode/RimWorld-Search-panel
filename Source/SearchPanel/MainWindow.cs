@@ -107,8 +107,6 @@ namespace SearchPanel
                 {
                     selectedCategory = category;
                 }
-                Widgets.Label(curRect, category.Name.First().ToString());
-                TooltipHandler.TipRegion(curRect, category.Name);
 
                 categoryRect.x += categoryRect.width;
             }
