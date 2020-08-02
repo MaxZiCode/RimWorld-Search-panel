@@ -78,7 +78,6 @@
     <Compile Include="ICategoryObserver.cs" />
     <Compile Include="ItemFactory.cs" />
     <Compile Include="MainMVC.cs" />
-    <Compile Include="ObjectWithCells.cs" />
     <Compile Include="FilterRequestGroup.cs" />
     <Compile Include="FilterRequestGroupIgnore.cs" />
     <Compile Include="SearchItem.cs" />
