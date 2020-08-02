@@ -23,7 +23,7 @@ namespace SearchPanel
         public override IEnumerable<SearchItemPack> GetThingItemPack(Map map, Filter<Thing> filter)
         {
             return from thing in thingFactory.GetThings(map)
-                   where filter.IsRight(thing)
+                   where filter.IsRight(thing) && !thing.PositionHeld.Fogged(map)
                    let searchItem = new SearchItem(thing)
                    group searchItem by (searchItem.Def, searchItem.Stuff) into searchItems
 
