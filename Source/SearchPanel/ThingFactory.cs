@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RimWorld;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,10 @@ namespace SearchPanel
 {
     public class ThingFactory
     {
-        public virtual IEnumerable<Thing> GetThings(Map map) => map.GetDirectlyHeldThings();
+        public virtual IEnumerable<Thing> GetThings(Map map)
+        {
+            return from thing in map.GetDirectlyHeldThings()
+                   select thing;
+        }
     }
 }

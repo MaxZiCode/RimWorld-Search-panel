@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RimWorld;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,10 +24,9 @@ namespace SearchPanel
         {
             return from thing in thingFactory.GetThings(map)
                    where filter.IsRight(thing)
-                   group thing by (thing.def, thing.Stuff) into thingsByDef
+                   let searchItem = new SearchItem(thing)
+                   group searchItem by (searchItem.Def, searchItem.Stuff) into searchItems
 
-                   let searchItems = from thing in thingsByDef
-                                     select new SearchItem(thing)
                    select new SearchItemPack(searchItems);
         }
 
@@ -40,8 +40,8 @@ namespace SearchPanel
                    group cell by terrainAndIndex.Terrain into cellsByTerrain
 
                    let def = cellsByTerrain.Key
-                   let searchItems = new SearchItem(def, cellsByTerrain)
-                   select new SearchItemPack(searchItems);
+                   let searchItem = new SearchItem(def, cellsByTerrain)
+                   select new SearchItemPack(searchItem);
         }
     }
 }

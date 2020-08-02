@@ -13,23 +13,28 @@ namespace SearchPanel
         public int Count { get; }
         public Texture2D Texture { get; }
         public Color Color { get; }
+        public BuildableDef Def { get; }
+        public ThingDef Stuff { get; }
         public IReadOnlyCollection<IntVec3> Cells { get; }
 
         public SearchItem(Thing thing)
         {
-            var def = thing.def;
-            var stuff = thing.Stuff;
+            var innerThing = thing is MinifiedThing mThing ? mThing.InnerThing : thing;
 
-            LabelCap = thing.LabelCap;
-            LabelWithStuff = GenLabel.ThingLabel(def, stuff);
+            Stuff = innerThing.Stuff;
+            Def = innerThing.def;
+            LabelCap = innerThing.LabelCap;
+            LabelWithStuff = GenLabel.ThingLabel(Def, Stuff);
             Count = thing.stackCount;
-            Texture = def.uiIcon;
-            Color = stuff != null ? def.GetColorForStuff(stuff) : def.uiIconColor;
+            Texture = Def.uiIcon;
+            Color = Stuff != null ? Def.GetColorForStuff(Stuff) : Def.uiIconColor;
             Cells = thing.OccupiedRect().ToList();
         }
 
         public SearchItem(TerrainDef def, IEnumerable<IntVec3> cells)
         {
+            Def = def;
+            Stuff = null;
             LabelCap = def.LabelCap;
             LabelWithStuff = GenLabel.ThingLabel(def, null);
             Texture = def.uiIcon;
