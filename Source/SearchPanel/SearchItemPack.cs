@@ -9,25 +9,25 @@ using Verse;
 
 namespace SearchPanel
 {
-    public class SearchItemPack : Collection<SearchItem>
+    public struct SearchItemPack
     {
-        public string Label => Items.FirstOrDefault().LabelWithStuff ?? string.Empty;
-        public int StackCount => Items.Sum(i => i.Count);
-        public Texture2D Texture => Items.FirstOrDefault().Texture ?? BaseContent.BadTex;
-        public Color Color => Items.FirstOrDefault().Color;
-        public IEnumerable<IntVec3> AllCells => Items.SelectMany(i => i.Cells);
+        private readonly List<SearchItem> searchItems;
+
+        public string Label { get; set; }
+        public int StackCount { get; set; }
+        public Texture2D Texture { get; set; }
+        public Color Color { get; set; }
+        public IEnumerable<IntVec3> AllCells { get; set; }
+        public IReadOnlyCollection<SearchItem> Items => searchItems;
 
         public SearchItemPack(IEnumerable<SearchItem> searchItems)
         {
-            foreach (var searchItem in searchItems)
-            {
-                Add(searchItem);
-            }
-        }
-
-        public SearchItemPack(SearchItem searchItem)
-        {
-            Add(searchItem);
+            this.searchItems = new List<SearchItem>(searchItems);
+            Label = searchItems.FirstOrDefault().LabelWithStuff ?? string.Empty;
+            StackCount = searchItems.Sum(i => i.Count);
+            Texture = searchItems.FirstOrDefault().Texture ?? BaseContent.BadTex;
+            Color = searchItems.FirstOrDefault().Color;
+            AllCells = searchItems.SelectMany(i => i.Cells);
         }
     }
 }

@@ -59,7 +59,7 @@ namespace SearchPanel
         {
             private static void Postfix()
             {
-                var locations = MainMVC.SeekModel.ActiveSearchItemPack?.AllCells;
+                var locations = MainMVC.SeekModel.ActiveSearchItemPack.AllCells;
                 if (locations != null)
                     GenDraw.DrawFieldEdges(locations.ToList(), Color.magenta);
             }

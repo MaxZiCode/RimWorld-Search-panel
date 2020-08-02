@@ -160,7 +160,7 @@ namespace SearchPanel
                 favRect.x = itemRect.xMax - favRect.width;
 
                 Rect countRect = favRect;
-                countRect.width = Text.CalcSize(item.Count.ToString()).x;
+                countRect.width = Text.CalcSize(item.StackCount.ToString()).x;
                 countRect.x = favRect.xMin - countRect.width;
 
                 Rect labelRect = new Rect(itemRect)
@@ -198,7 +198,7 @@ namespace SearchPanel
 
         private void DoCount(Rect countRect, SearchItemPack item)
         {
-            Widgets.Label(countRect, item.Count.ToString());
+            Widgets.Label(countRect, item.StackCount.ToString());
         }
 
         private void DoLabel(Rect labelRect, SearchItemPack item)
