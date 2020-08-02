@@ -11,23 +11,31 @@ namespace SearchPanel
 {
     public struct SearchItemPack
     {
-        private readonly List<SearchItem> searchItems;
-
-        public string Label { get; set; }
-        public int StackCount { get; set; }
-        public Texture2D Texture { get; set; }
-        public Color Color { get; set; }
-        public IEnumerable<IntVec3> AllCells { get; set; }
-        public IReadOnlyCollection<SearchItem> Items => searchItems;
+        public string Label { get; }
+        public int StackCount { get; }
+        public Texture2D Texture { get; }
+        public Color Color { get; }
+        public IEnumerable<IntVec3> AllCells { get; }
+        public IReadOnlyCollection<SearchItem> Items { get; }
 
         public SearchItemPack(IEnumerable<SearchItem> searchItems)
         {
-            this.searchItems = new List<SearchItem>(searchItems);
-            Label = searchItems.FirstOrDefault().LabelWithStuff ?? string.Empty;
-            StackCount = searchItems.Sum(i => i.Count);
-            Texture = searchItems.FirstOrDefault().Texture ?? BaseContent.BadTex;
-            Color = searchItems.FirstOrDefault().Color;
-            AllCells = searchItems.SelectMany(i => i.Cells);
+            Items = new List<SearchItem>(searchItems);
+            Label = Items.FirstOrDefault().LabelWithStuff ?? string.Empty;
+            StackCount = Items.Sum(i => i.Count);
+            Texture = Items.FirstOrDefault().Texture ?? BaseContent.BadTex;
+            Color = Items.FirstOrDefault().Color;
+            AllCells = Items.SelectMany(i => i.Cells);
+        }
+
+        public SearchItemPack(SearchItem searchItem)
+        {
+            Items = new[] { searchItem };
+            Label = searchItem.LabelWithStuff ?? string.Empty;
+            StackCount = searchItem.Count;
+            Texture = searchItem.Texture ?? BaseContent.BadTex;
+            Color = searchItem.Color;
+            AllCells = searchItem.Cells;
         }
     }
 }

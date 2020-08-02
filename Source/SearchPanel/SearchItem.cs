@@ -8,12 +8,12 @@ namespace SearchPanel
 {
     public struct SearchItem
     {
-        public string LabelCap { get; set; }
-        public string LabelWithStuff { get; set; }
-        public int Count { get; set; }
-        public Texture2D Texture { get; set; }
-        public Color Color { get; set; }
-        public IReadOnlyCollection<IntVec3> Cells { get; set; }
+        public string LabelCap { get; }
+        public string LabelWithStuff { get; }
+        public int Count { get; }
+        public Texture2D Texture { get; }
+        public Color Color { get; }
+        public IReadOnlyCollection<IntVec3> Cells { get; }
 
         public SearchItem(Thing thing)
         {
@@ -28,14 +28,14 @@ namespace SearchPanel
             Cells = thing.OccupiedRect().ToList();
         }
 
-        public SearchItem(TerrainDef def, IntVec3 cell)
+        public SearchItem(TerrainDef def, IEnumerable<IntVec3> cells)
         {
             LabelCap = def.LabelCap;
             LabelWithStuff = GenLabel.ThingLabel(def, null);
-            Count = 1;
             Texture = def.uiIcon;
             Color = def.uiIconColor;
-            Cells = new[] { cell };
+            Cells = cells.ToList();
+            Count = Cells.Count;
         }
     }
 }

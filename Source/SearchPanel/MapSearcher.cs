@@ -32,13 +32,15 @@ namespace SearchPanel
 
         public override IEnumerable<SearchItemPack> GetTerrainItemPack(Map map, Filter<TerrainDef> filter)
         {
-            return from terrainAndIndex in terrainFactory.GetTerrains(map).Where(t => filter.IsRight(t)).Select((t, index) => (Terrain: t, Index: index))
+            return from terrainAndIndex in terrainFactory.GetTerrains(map)
+                                           .Where(t => filter.IsRight(t))
+                                           .Select((t, index) => (Terrain: t, Index: index))
                    let cell = CellIndicesUtility.IndexToCell(terrainAndIndex.Index, map.Size.x)
+                   where !cell.Fogged(map)
                    group cell by terrainAndIndex.Terrain into cellsByTerrain
 
                    let def = cellsByTerrain.Key
-                   let searchItems = from cell in cellsByTerrain
-                                     select new SearchItem(def, cell)
+                   let searchItems = new SearchItem(def, cellsByTerrain)
                    select new SearchItemPack(searchItems);
         }
     }
