@@ -10,8 +10,8 @@ namespace SearchPanel
 {
     public class SeekModel : ISeekModel
     {
-        private readonly List<SearchItem> allItems = new List<SearchItem>();
-        private readonly List<SearchItem> searchItems = new List<SearchItem>();
+        private readonly List<SearchItemPack> allItems = new List<SearchItemPack>();
+        private readonly List<SearchItemPack> searchItems = new List<SearchItemPack>();
         private readonly List<Category> categories = new List<Category>();
         private readonly List<ITextObserver> textObservers = new List<ITextObserver>();
         private readonly List<ICategoryObserver> categoryObservers = new List<ICategoryObserver>();
@@ -22,7 +22,7 @@ namespace SearchPanel
         private bool hasInitialized;
         private string text;
         private Category activeCategory;
-        private SearchItem activeSearchItem;
+        private SearchItemPack activeSearchItemPack;
 
         public IReadOnlyCollection<Category> Categories => categories;
 
@@ -37,14 +37,14 @@ namespace SearchPanel
             }
         }
 
-        public IReadOnlyCollection<SearchItem> SearchItems => searchItems;
+        public IReadOnlyCollection<SearchItemPack> SearchItems => searchItems;
 
-        public SearchItem ActiveSearchItem
+        public SearchItemPack ActiveSearchItemPack
         {
-            get => activeSearchItem;
+            get => activeSearchItemPack;
             set
             {
-                activeSearchItem = value;
+                activeSearchItemPack = value;
                 NotifySearchItemObservers();
             }
         }
@@ -71,12 +71,12 @@ namespace SearchPanel
 
         private void NotifySearchItemObservers() => searchItemObservers.ForEach(so => so.AfterUpdateSearchItem());
 
-        public void AddFavourite(SearchItem item)
+        public void AddFavourite(SearchItemPack item)
         {
             throw new NotImplementedException();
         }
 
-        public void RemoveFavourite(SearchItem item)
+        public void RemoveFavourite(SearchItemPack item)
         {
             throw new NotImplementedException();
         }
@@ -136,7 +136,7 @@ namespace SearchPanel
             // TODO: Added for tests, del later.
             UpdateAllItems();
 
-            IEnumerable<SearchItem> items = allItems;
+            IEnumerable<SearchItemPack> items = allItems;
             if (activeCategory != null)
             {
                 items = allItems;

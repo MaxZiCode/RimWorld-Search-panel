@@ -7,7 +7,7 @@ using Verse;
 
 namespace SearchPanel
 {
-    public class MapSearcher : SearchItemFactory
+    public class MapSearcher : SearchItemPackFactory
     {
         public readonly ThingFactory thingFactory;
 
@@ -19,32 +19,27 @@ namespace SearchPanel
             this.terrainFactory = terrainFactory;
         }
 
-        public override IEnumerable<SearchItem> GetThingItems(Map map)
+        public override IEnumerable<SearchItemPack> GetThingItemPack(Map map, Filter<Thing> filter)
         {
-            ThingOwner thingOwner = map.GetDirectlyHeldThings();
             return from thing in thingFactory.GetThings(map)
-                   group thing by (thing.def, thing.Stuff)
+                   where filter.IsRight(thing)
+                   group thing by (thing.def, thing.Stuff) into thingsByDef
 
-                   into thingsByDef
-                   let def = thingsByDef.Key.def
-                   let objectWithCells = thingsByDef.Select(t => new ObjectWithCells(t, new[] { t.Position }))
-                   let count = thingOwner.TotalStackCountOfDef(def)
-                   let stuff = thingsByDef.Key.Stuff
-                   select new SearchItem(def, objectWithCells, count, stuff);
+                   let searchItems = from thing in thingsByDef
+                                     select new SearchItem(thing)
+                   select new SearchItemPack(searchItems);
         }
 
-        public override IEnumerable<SearchItem> GetTerrainItems(Map map)
+        public override IEnumerable<SearchItemPack> GetTerrainItemPack(Map map, Filter<TerrainDef> filter)
         {
-            var terrains = terrainFactory.GetTerrains(map);
-            var allTerrainAndCells = terrains.Select((t, index) => (Terrain: t, Cell: CellIndicesUtility.IndexToCell(index, map.Size.x)));
+            return from terrainAndIndex in terrainFactory.GetTerrains(map).Where(t => filter.IsRight(t)).Select((t, index) => (Terrain: t, Index: index))
+                   let cell = CellIndicesUtility.IndexToCell(terrainAndIndex.Index, map.Size.x)
+                   group cell by terrainAndIndex.Terrain into cellsByTerrain
 
-            return from terrainAndCell in allTerrainAndCells
-                   group terrainAndCell.Cell by terrainAndCell.Terrain
-
-                   into cellsByTerrain
                    let def = cellsByTerrain.Key
-                   let objectWithCells = new[] { new ObjectWithCells(def, cellsByTerrain) }
-                   select new SearchItem(def, objectWithCells, cellsByTerrain.Count());
+                   let searchItems = from cell in cellsByTerrain
+                                     select new SearchItem(def, cell)
+                   select new SearchItemPack(searchItems);
         }
     }
 }

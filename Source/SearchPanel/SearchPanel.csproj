@@ -88,7 +88,8 @@
     <Compile Include="CategoryFactory.cs" />
     <Compile Include="ITextObserver.cs" />
     <Compile Include="MainWindow.cs" />
-    <Compile Include="SearchItemFactory.cs" />
+    <Compile Include="SearchItemPackFactory.cs" />
+    <Compile Include="SearchItemPack.cs" />
     <Compile Include="TerrainFactory.cs" />
     <Compile Include="Textures.cs" />
     <Compile Include="MapSearcher.cs" />

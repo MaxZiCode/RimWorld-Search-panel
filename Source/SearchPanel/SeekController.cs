@@ -17,7 +17,7 @@ namespace SearchPanel
             this.model = model;
         }
 
-        public void AddFavourite(SearchItem item)
+        public void AddFavourite(SearchItemPack item)
         {
             model.AddFavourite(item);
         }
@@ -37,9 +37,9 @@ namespace SearchPanel
             }
         }
 
-        public void ChangeActiveSearchItem(SearchItem item)
+        public void ChangeActiveSearchItem(SearchItemPack item)
         {
-            model.ActiveSearchItem = item;
+            model.ActiveSearchItemPack = item;
         }
 
         public void ChangeText(string text)
@@ -48,7 +48,7 @@ namespace SearchPanel
                 model.SearchText = text;
         }
 
-        public void RemoveFavourite(SearchItem item)
+        public void RemoveFavourite(SearchItemPack item)
         {
             model.RemoveFavourite(item);
         }

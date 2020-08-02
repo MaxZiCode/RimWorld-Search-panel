@@ -59,10 +59,12 @@ namespace SearchPanel
         {
             private static void Postfix()
             {
-                var locations = MainMVC.SeekModel.ActiveSearchItem.Cells;
+                var locations = MainMVC.SeekModel.ActiveSearchItemPack?.AllCells;
                 if (locations != null)
-                    GenDraw.DrawFieldEdges(locations, Color.magenta);
+                    GenDraw.DrawFieldEdges(locations.ToList(), Color.magenta);
             }
+
+            // TODO: Create a class for it.
         }
 
         //[HarmonyPatch(typeof(MemoryUtility), "ClearAllMapsAndWorld", MethodType.Normal)]

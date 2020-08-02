@@ -19,7 +19,7 @@ namespace SearchPanel
         private Vector2 itemsScrollPosition = new Vector2();
         private string text;
         private Category activeCategory;
-        private SearchItem activeSearchItem;
+        private SearchItemPack activeSearchItem;
 
         private readonly ISeekModel model;
         private readonly ISeekController controller;
@@ -189,24 +189,24 @@ namespace SearchPanel
             Widgets.EndScrollView();
         }
 
-        private void DoFavouriteButton(Rect favRect, SearchItem item)
+        private void DoFavouriteButton(Rect favRect, SearchItemPack item)
         {
             Widgets.DrawHighlightIfMouseover(favRect);
             // TODO: Добавлять / удалять из избранного.
             Widgets.ButtonImage(favRect, Textures.FavoutireButton, false);
         }
 
-        private void DoCount(Rect countRect, SearchItem item)
+        private void DoCount(Rect countRect, SearchItemPack item)
         {
             Widgets.Label(countRect, item.Count.ToString());
         }
 
-        private void DoLabel(Rect labelRect, SearchItem item)
+        private void DoLabel(Rect labelRect, SearchItemPack item)
         {
             Widgets.Label(labelRect, item.Label);
         }
 
-        private void DoSearchButton(Rect buttonRect, SearchItem item)
+        private void DoSearchButton(Rect buttonRect, SearchItemPack item)
         {
             Widgets.DrawHighlightIfMouseover(buttonRect);
             TooltipHandler.TipRegion(buttonRect, item.Label);
@@ -217,7 +217,7 @@ namespace SearchPanel
             }
         }
 
-        private void DoTexture(Rect textureRect, SearchItem item)
+        private void DoTexture(Rect textureRect, SearchItemPack item)
         {
             GUI.color = item.Color;
             Widgets.DrawTextureFitted(textureRect, item.Texture, 1f);
@@ -240,7 +240,7 @@ namespace SearchPanel
 
         public void AfterUpdateSearchItem()
         {
-            activeSearchItem = model.ActiveSearchItem;
+            activeSearchItem = model.ActiveSearchItemPack;
         }
 
         public void AfterUpdateCategory()

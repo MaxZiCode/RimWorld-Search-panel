@@ -8,30 +8,34 @@ namespace SearchPanel
 {
     public struct SearchItem
     {
-        public string Label { get; set; }
-
-        public Texture2D Texture { get; set; }
-
-        public Color Color { get; set; }
-
+        public string LabelCap { get; set; }
+        public string LabelWithStuff { get; set; }
         public int Count { get; set; }
+        public Texture2D Texture { get; set; }
+        public Color Color { get; set; }
+        public IReadOnlyCollection<IntVec3> Cells { get; set; }
 
-        public BuildableDef Def { get; set; }
-
-        public IReadOnlyCollection<ObjectWithCells> ObjectsWithCells { get; set; }
-
-        public List<IntVec3> Cells { get; set; }
-
-        public SearchItem(BuildableDef def, IEnumerable<ObjectWithCells> objectsWithCells, int count, ThingDef stuff = null)
+        public SearchItem(Thing thing)
         {
-            Label = GenLabel.ThingLabel(def, stuff);
+            var def = thing.def;
+            var stuff = thing.Stuff;
+
+            LabelCap = thing.LabelCap;
+            LabelWithStuff = GenLabel.ThingLabel(def, stuff);
+            Count = thing.stackCount;
             Texture = def.uiIcon;
             Color = stuff != null ? def.GetColorForStuff(stuff) : def.uiIconColor;
-            Count = count;
-            Def = def;
+            Cells = thing.OccupiedRect().ToList();
+        }
 
-            ObjectsWithCells = objectsWithCells.ToList();
-            Cells = ObjectsWithCells.SelectMany(owc => owc.Cells).ToList();
+        public SearchItem(TerrainDef def, IntVec3 cell)
+        {
+            LabelCap = def.LabelCap;
+            LabelWithStuff = GenLabel.ThingLabel(def, null);
+            Count = 1;
+            Texture = def.uiIcon;
+            Color = def.uiIconColor;
+            Cells = new[] { cell };
         }
     }
 }
