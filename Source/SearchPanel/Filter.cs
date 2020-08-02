@@ -19,9 +19,7 @@ namespace SearchPanel
         public virtual bool IsRight(T item)
         {
             if (FilterFunc(item))
-                return true;
-            if (child?.FilterFunc(item) ?? false)
-                return true;
+                return child?.FilterFunc(item) ?? true;
             return false;
         }
 
