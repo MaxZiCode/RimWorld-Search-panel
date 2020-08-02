@@ -28,7 +28,7 @@ namespace SearchPanel
             Count = thing.stackCount;
             Texture = Def.uiIcon;
             Color = Stuff != null ? Def.GetColorForStuff(Stuff) : Def.uiIconColor;
-            Cells = thing.OccupiedRect().ToList();
+            Cells = GenAdj.OccupiedRect(thing.PositionHeld, thing.Rotation, thing.def.size).ToList();
         }
 
         public SearchItem(TerrainDef def, IEnumerable<IntVec3> cells)
@@ -36,7 +36,7 @@ namespace SearchPanel
             Def = def;
             Stuff = null;
             LabelCap = def.LabelCap;
-            LabelWithStuff = GenLabel.ThingLabel(def, null);
+            LabelWithStuff = GenLabel.ThingLabel(def, Stuff);
             Texture = def.uiIcon;
             Color = def.uiIconColor;
             Cells = cells.ToList();
