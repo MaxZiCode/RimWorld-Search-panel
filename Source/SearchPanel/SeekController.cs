@@ -26,7 +26,7 @@ namespace SearchPanel
         {
             if (ReferenceEquals(model.ActiveCategory, category))
             {
-                model.ActiveCategory = null;
+                model.ActiveCategory = model.Categories.FirstOrDefault();
             }
             else
             {
