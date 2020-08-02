@@ -24,10 +24,7 @@ namespace SearchPanel
 
         public void ChangeActiveCategory(Category category)
         {
-            if (category == null)
-                return;
-
-            if (model.ActiveCategory == category)
+            if (ReferenceEquals(model.ActiveCategory, category))
             {
                 model.ActiveCategory = null;
             }
@@ -39,7 +36,14 @@ namespace SearchPanel
 
         public void ChangeActiveSearchItem(SearchItemPack item)
         {
-            model.ActiveSearchItemPack = item;
+            if (model.ActiveSearchItemPack.Equals(item))
+            {
+                model.ActiveSearchItemPack = new SearchItemPack();
+            }
+            else
+            {
+                model.ActiveSearchItemPack = item;
+            }
         }
 
         public void ChangeText(string text)

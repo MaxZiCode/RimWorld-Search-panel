@@ -9,7 +9,7 @@ using Verse;
 
 namespace SearchPanel
 {
-    public struct SearchItemPack
+    public struct SearchItemPack : IEquatable<SearchItemPack>
     {
         public string Label { get; }
         public int StackCount { get; }
@@ -36,6 +36,14 @@ namespace SearchPanel
             Texture = searchItem.Texture ?? BaseContent.BadTex;
             Color = searchItem.Color;
             AllCells = searchItem.Cells;
+        }
+
+        public bool Equals(SearchItemPack other)
+        {
+            if (Label == null)
+                return false;
+
+            return Label.Equals(other.Label, StringComparison.OrdinalIgnoreCase);
         }
     }
 }

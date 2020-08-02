@@ -94,8 +94,6 @@ namespace SearchPanel
                 height = catRectSide
             };
 
-            Category selectedCategory = null;
-
             Widgets.BeginScrollView(faceRect, ref categoryScrollPosition, groupRect);
             GUI.BeginGroup(groupRect);
 
@@ -105,7 +103,7 @@ namespace SearchPanel
                 bool selected = category == activeCategory;
                 if (SimpleButton(curRect, selected))
                 {
-                    selectedCategory = category;
+                    controller.ChangeActiveCategory(category);
                 }
 
                 categoryRect.x += categoryRect.width;
@@ -115,8 +113,6 @@ namespace SearchPanel
 
             GUI.EndGroup();
             Widgets.EndScrollView();
-
-            controller.ChangeActiveCategory(selectedCategory);
         }
 
         private void TurnVerticalScrollToHorizontal()
@@ -175,11 +171,15 @@ namespace SearchPanel
                     xMax = countRect.xMax
                 };
 
+                bool selected = activeSearchItem.Equals(item);
+                if (selected)
+                    Widgets.DrawOptionSelected(itemRect);
+
+                DoSearchButton(buttonRect, item);
                 DoCollapseRevealButton(collapseButtonRect);
                 DoTexture(textureRect, item);
                 DoLabel(labelRect, item);
                 DoCount(countRect, item);
-                DoSearchButton(buttonRect, item);
                 DoFavouriteButton(favRect, item);
 
                 itemRect.y += itemRect.height;
@@ -210,7 +210,6 @@ namespace SearchPanel
         {
             Widgets.DrawHighlightIfMouseover(buttonRect);
             TooltipHandler.TipRegion(buttonRect, item.Label);
-
             if (Widgets.ButtonInvisible(buttonRect))
             {
                 controller.ChangeActiveSearchItem(item);
