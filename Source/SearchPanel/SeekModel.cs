@@ -10,7 +10,6 @@ namespace SearchPanel
 {
     public class SeekModel : ISeekModel
     {
-        private readonly List<SearchItemPack> allItems = new List<SearchItemPack>();
         private readonly List<SearchItemPack> searchItems = new List<SearchItemPack>();
         private readonly List<Category> categories = new List<Category>();
         private readonly List<ITextObserver> textObservers = new List<ITextObserver>();
@@ -21,6 +20,7 @@ namespace SearchPanel
 
         private bool hasInitialized;
         private string text;
+        private Map map;
         private Category activeCategory;
         private SearchItemPack activeSearchItemPack;
 
@@ -122,30 +122,23 @@ namespace SearchPanel
             searchItemObservers.Remove(searchItemObserver);
         }
 
-        public void UpdateAllItems()
-        {
-            allItems.Clear();
-            var orderedItems = ActiveCategory.GetItems(Current.Game.CurrentMap).OrderBy(item => item.Label);
-            allItems.AddRange(orderedItems);
-        }
-
         public void UpdateSearchItems()
         {
-            searchItems.Clear();
+            var currentMap = Current.Game.CurrentMap;
 
-            // TODO: Added for tests, del later.
-            UpdateAllItems();
-
-            IEnumerable<SearchItemPack> items = allItems;
-            if (activeCategory != null)
-            {
-                items = allItems;
-            }
+            IEnumerable<SearchItemPack> items = ActiveCategory.GetItems(currentMap).OrderBy(item => item.Label);
             if (!string.IsNullOrEmpty(text))
             {
                 items = items.Where(i => i.Label.IndexOf(text, 0, StringComparison.OrdinalIgnoreCase) != -1);
             }
+            searchItems.Clear();
             searchItems.AddRange(items);
+
+            if (map != currentMap)
+            {
+                map = currentMap;
+                ActiveSearchItemPack = items.FirstOrDefault(i => ActiveSearchItemPack.Equals(i));
+            }
         }
     }
 }

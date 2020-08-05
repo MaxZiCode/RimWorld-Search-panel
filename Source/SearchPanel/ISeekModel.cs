@@ -18,8 +18,6 @@ namespace SearchPanel
 
         void Initialize();
 
-        void UpdateAllItems();
-
         void UpdateSearchItems();
 
         void AddFavourite(SearchItemPack item);
