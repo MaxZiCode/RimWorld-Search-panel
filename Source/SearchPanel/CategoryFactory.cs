@@ -11,20 +11,20 @@ namespace SearchPanel
     public class CategoryFactory
     {
         private Filter<Thing> filterThing;
-        private Filter<TerrainDef> filterTerrain;
+        private Filter<Terrain> filterTerrain;
         private Searcher<Thing> thingSearhcer;
-        private Searcher<TerrainDef> terrainSearhcer;
+        private Searcher<Terrain> terrainSearhcer;
 
         protected readonly Searcher<Thing> defaultThingSearhcer;
-        protected readonly Searcher<TerrainDef> defaultTerrainSearhcer;
+        protected readonly Searcher<Terrain> defaultTerrainSearhcer;
         protected readonly Filter<Thing> Ignore;
         protected readonly Filter<Thing> Everything;
         protected readonly Filter<Thing> Nothing;
         protected readonly Filter<Thing> CorpsesIgnore;
-        protected readonly Filter<TerrainDef> EveryTerrain;
-        protected readonly Filter<TerrainDef> NoTerrain;
+        protected readonly Filter<Terrain> NotFoggedTerrain;
+        protected readonly Filter<Terrain> NoTerrain;
 
-        public CategoryFactory(Searcher<Thing> thingSearhcer, Searcher<TerrainDef> terrainSearhcer)
+        public CategoryFactory(Searcher<Thing> thingSearhcer, Searcher<Terrain> terrainSearhcer)
         {
             defaultThingSearhcer = thingSearhcer;
             defaultTerrainSearhcer = terrainSearhcer;
@@ -36,14 +36,14 @@ namespace SearchPanel
             Everything = new FilterRequestGroup(ThingRequestGroup.Everything, Ignore);
             Nothing = new FilterRequestGroupIgnore(ThingRequestGroup.Everything);
             CorpsesIgnore = new FilterRequestGroupIgnore(ThingRequestGroup.Corpse, Everything);
-            EveryTerrain = new FilterTerrainAll();
+            NotFoggedTerrain = new FilterTerrainNotFogged();
             NoTerrain = new FilterTerrainNone();
         }
 
         public virtual IEnumerable<Category> GetCategories()
         {
             filterThing = Everything;
-            filterTerrain = EveryTerrain;
+            filterTerrain = NotFoggedTerrain;
             thingSearhcer = defaultThingSearhcer;
             terrainSearhcer = defaultTerrainSearhcer;
 
@@ -54,7 +54,7 @@ namespace SearchPanel
             yield return GetCategory(ThingCategory.Building);
 
             filterThing = Nothing;
-            filterTerrain = EveryTerrain;
+            filterTerrain = NotFoggedTerrain;
             yield return GetCategory();
 
             filterThing = Everything;

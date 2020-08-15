@@ -7,12 +7,12 @@ using Verse;
 
 namespace SearchPanel
 {
-    public class FilterTerrainNone : Filter<TerrainDef>
+    public class FilterTerrainNone : Filter<Terrain>
     {
-        public FilterTerrainNone(Filter<TerrainDef> child = null) : base(child)
+        public FilterTerrainNone(Filter<Terrain> child = null) : base(child)
         {
         }
 
-        protected override bool FilterFunc(TerrainDef item) => false;
+        protected override bool FilterFunc(Terrain item) => false;
     }
 }

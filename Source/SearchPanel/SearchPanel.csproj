@@ -73,6 +73,7 @@
     <Compile Include="Category.cs" />
     <Compile Include="EmptySearchable.cs" />
     <Compile Include="FilterTerrainAll.cs" />
+    <Compile Include="FilterTerrainNotFogged.cs" />
     <Compile Include="FilterTerrainNone.cs" />
     <Compile Include="FilterThingCategory.cs" />
     <Compile Include="FilterThingCategoryIgnore.cs" />
@@ -90,6 +91,7 @@
     <Compile Include="ITextObserver.cs" />
     <Compile Include="MainWindow.cs" />
     <Compile Include="Searcher.cs" />
+    <Compile Include="Terrain.cs" />
     <Compile Include="TerrainSearcher.cs" />
     <Compile Include="TerrainSearchItem.cs" />
     <Compile Include="Textures.cs" />

@@ -7,12 +7,13 @@ using Verse;
 
 namespace SearchPanel
 {
-    public class TerrainSearcher : Searcher<TerrainDef>
+    public class TerrainSearcher : Searcher<Terrain>
     {
-        protected override SearchItem<TerrainDef> CreateSearchItem(TerrainDef item) => new TerrainSearchItem(item, GetKey(item));
+        protected override SearchItem<Terrain> CreateSearchItem(Terrain item) => new TerrainSearchItem(item, GetKey(item));
 
-        protected override IEnumerable<TerrainDef> GetItems(Map map) => map.terrainGrid.topGrid;
+        protected override IEnumerable<Terrain> GetItems(Map map) => map.terrainGrid.topGrid.Select((def, index) =>
+            new Terrain() { Def = def, Place = CellIndicesUtility.IndexToCell(index, map.Size.x), Map = map });
 
-        protected override string GetKey(TerrainDef item) => item.LabelCap;
+        protected override string GetKey(Terrain item) => item.Def.LabelCap;
     }
 }

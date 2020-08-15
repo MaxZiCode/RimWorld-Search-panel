@@ -11,7 +11,7 @@ namespace SearchPanel
     public static class MainMVC
     {
         public static Searcher<Thing> ThingSearcher { get; set; } = new ThingSearcher();
-        public static Searcher<TerrainDef> TerrainSearcher { get; set; } = new TerrainSearcher();
+        public static Searcher<Terrain> TerrainSearcher { get; set; } = new TerrainSearcher();
         public static CategoryFactory CategoryFactory { get; set; } = new CategoryFactory(ThingSearcher, TerrainSearcher);
         public static ISeekModel SeekModel { get; set; } = new SeekModel(CategoryFactory);
         public static ISeekController SeekController { get; set; } = new SeekController(SeekModel);

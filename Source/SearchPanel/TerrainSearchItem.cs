@@ -9,7 +9,7 @@ using Verse;
 
 namespace SearchPanel
 {
-    public class TerrainSearchItem : SearchItem<TerrainDef>
+    public class TerrainSearchItem : SearchItem<Terrain>
     {
         private int count;
 
@@ -19,20 +19,16 @@ namespace SearchPanel
         public override BuildableDef Def { get; }
         public override ThingDef Stuff { get; }
 
-        public TerrainSearchItem(TerrainDef def, string label) : base(def, label)
+        public TerrainSearchItem(Terrain terrain, string label) : base(terrain, label)
         {
-            Def = def;
+            Def = terrain.Def;
             Stuff = null;
-            Texture = def.uiIcon;
-            Color = def.uiIconColor;
+            Texture = Def.uiIcon;
+            Color = Def.uiIconColor;
+            items.Add(terrain);
         }
 
-        public override IEnumerable<IntVec3> GetCells()
-        {
-            var map = Current.Game.CurrentMap;
-            var terrainAndIndex = Current.Game.CurrentMap.terrainGrid.topGrid.Select((t, i) => (Terrain: t, Index: i));
-            return terrainAndIndex.Where(ti => ti.Terrain == items.FirstOrDefault()).Select(ti => CellIndicesUtility.IndexToCell(ti.Index, map.Size.x));
-        }
+        public override IEnumerable<IntVec3> GetCells() => items.Select(i => i.Place);
 
         public override void Update()
         {

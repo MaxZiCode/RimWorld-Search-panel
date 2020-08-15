@@ -7,11 +7,11 @@ namespace SearchPanel
     public class Category
     {
         private readonly Filter<Thing> filterThing;
-        private readonly Filter<TerrainDef> filterTerrain;
+        private readonly Filter<Terrain> filterTerrain;
         private readonly Searcher<Thing> thingSearcher;
-        private readonly Searcher<TerrainDef> terrainSearcher;
+        private readonly Searcher<Terrain> terrainSearcher;
 
-        public Category(Filter<Thing> filterThing, Filter<TerrainDef> filterTerrain, Searcher<Thing> thingSearcher, Searcher<TerrainDef> terrainSearcher)
+        public Category(Filter<Thing> filterThing, Filter<Terrain> filterTerrain, Searcher<Thing> thingSearcher, Searcher<Terrain> terrainSearcher)
         {
             this.filterThing = filterThing;
             this.filterTerrain = filterTerrain;
@@ -25,7 +25,7 @@ namespace SearchPanel
             return thingSearcher.GetSearchItems();
         }
 
-        public IEnumerable<SearchItem<TerrainDef>> GetSearchTerrains(Map map)
+        public IEnumerable<SearchItem<Terrain>> GetSearchTerrains(Map map)
         {
             terrainSearcher.UpdateItems(map, filterTerrain);
             return terrainSearcher.GetSearchItems();
