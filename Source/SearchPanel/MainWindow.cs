@@ -19,7 +19,7 @@ namespace SearchPanel
         private Vector2 itemsScrollPosition = new Vector2();
         private string text;
         private Category activeCategory;
-        private SearchItemPack activeSearchItem;
+        private ISearchable activeSearchable;
 
         private readonly ISeekModel model;
         private readonly ISeekController controller;
@@ -138,13 +138,13 @@ namespace SearchPanel
             Rect groupRect = new Rect()
             {
                 width = faceRect.width - scrollSize,
-                height = itemRect.height * model.SearchItems.Count
+                height = itemRect.height * model.Searchables.Count
             };
 
             Widgets.BeginScrollView(faceRect, ref itemsScrollPosition, groupRect);
             GUI.BeginGroup(groupRect);
 
-            foreach (var item in model.SearchItems)
+            foreach (var searchable in model.Searchables)
             {
                 Rect collapseButtonRect = itemRect;
                 collapseButtonRect.width = collapseButtonRect.height;
@@ -156,7 +156,7 @@ namespace SearchPanel
                 favRect.x = itemRect.xMax - favRect.width;
 
                 Rect countRect = favRect;
-                countRect.width = Text.CalcSize(item.StackCount.ToString()).x;
+                countRect.width = Text.CalcSize(searchable.Count.ToString()).x;
                 countRect.x = favRect.xMin - countRect.width;
 
                 Rect labelRect = new Rect(itemRect)
@@ -171,16 +171,16 @@ namespace SearchPanel
                     xMax = countRect.xMax
                 };
 
-                bool selected = activeSearchItem.Equals(item);
+                bool selected = activeSearchable?.Equals(searchable) ?? false;
                 if (selected)
                     Widgets.DrawOptionSelected(itemRect);
 
-                DoSearchButton(buttonRect, item);
+                DoSearchButton(buttonRect, searchable);
                 DoCollapseRevealButton(collapseButtonRect);
-                DoTexture(textureRect, item);
-                DoLabel(labelRect, item);
-                DoCount(countRect, item);
-                DoFavouriteButton(favRect, item);
+                DoTexture(textureRect, searchable);
+                DoLabel(labelRect, searchable);
+                DoCount(countRect, searchable);
+                DoFavouriteButton(favRect, searchable);
 
                 itemRect.y += itemRect.height;
             }
@@ -189,34 +189,34 @@ namespace SearchPanel
             Widgets.EndScrollView();
         }
 
-        private void DoFavouriteButton(Rect favRect, SearchItemPack item)
+        private void DoFavouriteButton(Rect favRect, ISearchable item)
         {
             Widgets.DrawHighlightIfMouseover(favRect);
             // TODO: Добавлять / удалять из избранного.
             Widgets.ButtonImage(favRect, Textures.FavoutireButton, false);
         }
 
-        private void DoCount(Rect countRect, SearchItemPack item)
+        private void DoCount(Rect countRect, ISearchable item)
         {
-            Widgets.Label(countRect, item.StackCount.ToString());
+            Widgets.Label(countRect, item.Count.ToString());
         }
 
-        private void DoLabel(Rect labelRect, SearchItemPack item)
+        private void DoLabel(Rect labelRect, ISearchable item)
         {
             Widgets.Label(labelRect, item.Label);
         }
 
-        private void DoSearchButton(Rect buttonRect, SearchItemPack item)
+        private void DoSearchButton(Rect buttonRect, ISearchable item)
         {
             Widgets.DrawHighlightIfMouseover(buttonRect);
             TooltipHandler.TipRegion(buttonRect, item.Label);
             if (Widgets.ButtonInvisible(buttonRect))
             {
-                controller.ChangeActiveSearchItem(item);
+                controller.ChangeActiveSearchable(item);
             }
         }
 
-        private void DoTexture(Rect textureRect, SearchItemPack item)
+        private void DoTexture(Rect textureRect, ISearchable item)
         {
             GUI.color = item.Color;
             Widgets.DrawTextureFitted(textureRect, item.Texture, 1f);
@@ -239,7 +239,7 @@ namespace SearchPanel
 
         public void AfterUpdateSearchItem()
         {
-            activeSearchItem = model.ActiveSearchItemPack;
+            activeSearchable = model.ActiveSearchable;
         }
 
         public void AfterUpdateCategory()

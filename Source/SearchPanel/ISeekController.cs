@@ -6,10 +6,10 @@
 
         void ChangeActiveCategory(Category category);
 
-        void ChangeActiveSearchItem(SearchItemPack searchItem);
+        void ChangeActiveSearchable(ISearchable searchItem);
 
-        void AddFavourite(SearchItemPack item);
+        void AddFavourite(ISearchable item);
 
-        void RemoveFavourite(SearchItemPack item);
+        void RemoveFavourite(ISearchable item);
     }
 }

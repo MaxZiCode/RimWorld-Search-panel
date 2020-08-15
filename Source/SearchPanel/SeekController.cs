@@ -17,7 +17,7 @@ namespace SearchPanel
             this.model = model;
         }
 
-        public void AddFavourite(SearchItemPack item)
+        public void AddFavourite(ISearchable item)
         {
             model.AddFavourite(item);
         }
@@ -34,15 +34,15 @@ namespace SearchPanel
             }
         }
 
-        public void ChangeActiveSearchItem(SearchItemPack item)
+        public void ChangeActiveSearchable(ISearchable item)
         {
-            if (model.ActiveSearchItemPack.Equals(item))
+            if (model.ActiveSearchable.Equals(item))
             {
-                model.ActiveSearchItemPack = new SearchItemPack();
+                model.ActiveSearchable = EmptySearchable.Get();
             }
             else
             {
-                model.ActiveSearchItemPack = item;
+                model.ActiveSearchable = item;
             }
         }
 
@@ -52,7 +52,7 @@ namespace SearchPanel
                 model.SearchText = text;
         }
 
-        public void RemoveFavourite(SearchItemPack item)
+        public void RemoveFavourite(ISearchable item)
         {
             model.RemoveFavourite(item);
         }

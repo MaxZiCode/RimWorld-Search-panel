@@ -6,41 +6,31 @@ using Verse;
 
 namespace SearchPanel
 {
-    public struct SearchItem
+    public abstract class SearchItem<T> : ISearchable
     {
-        public string LabelCap { get; }
-        public string LabelWithStuff { get; }
-        public int Count { get; }
-        public Texture2D Texture { get; }
-        public Color Color { get; }
-        public BuildableDef Def { get; }
-        public ThingDef Stuff { get; }
-        public IReadOnlyCollection<IntVec3> Cells { get; }
+        protected readonly List<T> items = new List<T>();
 
-        public SearchItem(Thing thing)
+        public virtual string Label { get; }
+        public abstract int Count { get; }
+        public abstract Texture2D Texture { get; }
+        public abstract Color Color { get; }
+        public abstract BuildableDef Def { get; }
+        public abstract ThingDef Stuff { get; }
+
+        protected SearchItem(T item, string label)
         {
-            var innerThing = thing is MinifiedThing mThing ? mThing.InnerThing : thing;
-
-            Stuff = innerThing.Stuff;
-            Def = innerThing.def;
-            LabelCap = innerThing.LabelCap;
-            LabelWithStuff = GenLabel.ThingLabel(Def, Stuff);
-            Count = thing.stackCount;
-            Texture = Def.uiIcon;
-            Color = Stuff != null ? Def.GetColorForStuff(Stuff) : Def.uiIconColor;
-            Cells = GenAdj.OccupiedRect(thing.PositionHeld, thing.Rotation, thing.def.size).ToList();
+            items.Add(item);
+            Label = label;
         }
 
-        public SearchItem(TerrainDef def, IEnumerable<IntVec3> cells)
-        {
-            Def = def;
-            Stuff = null;
-            LabelCap = def.LabelCap;
-            LabelWithStuff = GenLabel.ThingLabel(def, Stuff);
-            Texture = def.uiIcon;
-            Color = def.uiIconColor;
-            Cells = cells.ToList();
-            Count = Cells.Count;
-        }
+        public IReadOnlyCollection<T> Items => items;
+
+        public void Clear() => items.Clear();
+
+        public void Add(T item) => items.Add(item);
+
+        public abstract IEnumerable<IntVec3> GetCells();
+
+        public abstract void Update();
     }
 }

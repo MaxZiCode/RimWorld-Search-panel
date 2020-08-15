@@ -8,11 +8,13 @@ using Verse;
 
 namespace SearchPanel
 {
-    public class ThingFactory
+    public class ThingSearcher : Searcher<Thing>
     {
-        private static List<IThingHolder> pawnChildHoldersChache = new List<IThingHolder>();
+        private static readonly List<IThingHolder> pawnChildHoldersChache = new List<IThingHolder>();
 
-        public virtual IEnumerable<Thing> GetThings(Map map)
+        protected override SearchItem<Thing> CreateSearchItem(Thing item) => new ThingSearchItem(item, GetKey(item));
+
+        protected override IEnumerable<Thing> GetItems(Map map)
         {
             foreach (var thing in map.GetDirectlyHeldThings())
             {
@@ -28,5 +30,7 @@ namespace SearchPanel
                 yield return thing;
             }
         }
+
+        protected override string GetKey(Thing item) => item is MinifiedThing mThing ? mThing.InnerThing.def.LabelCap : item.def.LabelCap;
     }
 }

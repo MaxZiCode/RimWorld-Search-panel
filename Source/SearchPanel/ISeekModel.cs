@@ -11,18 +11,18 @@ namespace SearchPanel
     public interface ISeekModel
     {
         IReadOnlyCollection<Category> Categories { get; }
-        IReadOnlyCollection<SearchItemPack> SearchItems { get; }
+        IReadOnlyCollection<ISearchable> Searchables { get; }
         Category ActiveCategory { get; set; }
-        SearchItemPack ActiveSearchItemPack { get; set; }
+        ISearchable ActiveSearchable { get; set; }
         string SearchText { get; set; }
 
         void Initialize();
 
         void UpdateSearchItems();
 
-        void AddFavourite(SearchItemPack item);
+        void AddFavourite(ISearchable item);
 
-        void RemoveFavourite(SearchItemPack item);
+        void RemoveFavourite(ISearchable item);
 
         void RegisterObserver(ITextObserver textObserver);
 

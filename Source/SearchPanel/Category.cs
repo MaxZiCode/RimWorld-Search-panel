@@ -6,22 +6,29 @@ namespace SearchPanel
 {
     public class Category
     {
-        protected readonly Filter<Thing> filterThing;
-        protected readonly Filter<TerrainDef> filterTerrain;
-        protected readonly SearchItemPackFactory searchItemFactory;
+        private readonly Filter<Thing> filterThing;
+        private readonly Filter<TerrainDef> filterTerrain;
+        private readonly Searcher<Thing> thingSearcher;
+        private readonly Searcher<TerrainDef> terrainSearcher;
 
-        public Category(Filter<Thing> filterThing, Filter<TerrainDef> filterTerrain, SearchItemPackFactory searchItemFactory)
+        public Category(Filter<Thing> filterThing, Filter<TerrainDef> filterTerrain, Searcher<Thing> thingSearcher, Searcher<TerrainDef> terrainSearcher)
         {
             this.filterThing = filterThing;
             this.filterTerrain = filterTerrain;
-            this.searchItemFactory = searchItemFactory;
+            this.thingSearcher = thingSearcher;
+            this.terrainSearcher = terrainSearcher;
         }
 
-        public IEnumerable<SearchItemPack> GetItems(Map map)
+        public IEnumerable<SearchItem<Thing>> GetSearchThings(Map map)
         {
-            var thingItems = searchItemFactory.GetThingItemPack(map, filterThing);
-            var terrainItems = searchItemFactory.GetTerrainItemPack(map, filterTerrain);
-            return thingItems.Concat(terrainItems);
+            thingSearcher.UpdateItems(map, filterThing);
+            return thingSearcher.GetSearchItems();
+        }
+
+        public IEnumerable<SearchItem<TerrainDef>> GetSearchTerrains(Map map)
+        {
+            terrainSearcher.UpdateItems(map, filterTerrain);
+            return terrainSearcher.GetSearchItems();
         }
     }
 }

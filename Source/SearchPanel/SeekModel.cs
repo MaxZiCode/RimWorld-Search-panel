@@ -10,7 +10,7 @@ namespace SearchPanel
 {
     public class SeekModel : ISeekModel
     {
-        private readonly List<SearchItemPack> searchItems = new List<SearchItemPack>();
+        private readonly List<ISearchable> searchables = new List<ISearchable>();
         private readonly List<Category> categories = new List<Category>();
         private readonly List<ITextObserver> textObservers = new List<ITextObserver>();
         private readonly List<ICategoryObserver> categoryObservers = new List<ICategoryObserver>();
@@ -20,9 +20,8 @@ namespace SearchPanel
 
         private bool hasInitialized;
         private string text;
-        private Map map;
         private Category activeCategory;
-        private SearchItemPack activeSearchItemPack;
+        private ISearchable activeSearchable;
 
         public IReadOnlyCollection<Category> Categories => categories;
 
@@ -37,14 +36,14 @@ namespace SearchPanel
             }
         }
 
-        public IReadOnlyCollection<SearchItemPack> SearchItems => searchItems;
+        public IReadOnlyCollection<ISearchable> Searchables => searchables;
 
-        public SearchItemPack ActiveSearchItemPack
+        public ISearchable ActiveSearchable
         {
-            get => activeSearchItemPack;
+            get => activeSearchable;
             set
             {
-                activeSearchItemPack = value;
+                activeSearchable = value;
                 NotifySearchItemObservers();
             }
         }
@@ -71,12 +70,12 @@ namespace SearchPanel
 
         private void NotifySearchItemObservers() => searchItemObservers.ForEach(so => so.AfterUpdateSearchItem());
 
-        public void AddFavourite(SearchItemPack item)
+        public void AddFavourite(ISearchable item)
         {
             throw new NotImplementedException();
         }
 
-        public void RemoveFavourite(SearchItemPack item)
+        public void RemoveFavourite(ISearchable item)
         {
             throw new NotImplementedException();
         }
@@ -87,6 +86,7 @@ namespace SearchPanel
             {
                 categories.AddRange(categoryFactory.GetCategories());
                 ActiveCategory = Categories.FirstOrDefault();
+                ActiveSearchable = EmptySearchable.Get();
                 SearchText = string.Empty;
                 hasInitialized = true;
             }
@@ -126,19 +126,15 @@ namespace SearchPanel
         {
             var currentMap = Current.Game.CurrentMap;
 
-            IEnumerable<SearchItemPack> items = ActiveCategory.GetItems(currentMap).OrderBy(item => item.Label);
+            IEnumerable<ISearchable> thingItems = ActiveCategory.GetSearchThings(currentMap);
+            IEnumerable<ISearchable> terrainItems = ActiveCategory.GetSearchTerrains(currentMap);
+            IEnumerable<ISearchable> items = thingItems.Concat(terrainItems).OrderBy(item => item.Label);
             if (!string.IsNullOrEmpty(text))
             {
                 items = items.Where(i => i.Label.IndexOf(text, 0, StringComparison.OrdinalIgnoreCase) != -1);
             }
-            searchItems.Clear();
-            searchItems.AddRange(items);
-
-            if (map != currentMap)
-            {
-                map = currentMap;
-                ActiveSearchItemPack = items.FirstOrDefault(i => ActiveSearchItemPack.Equals(i));
-            }
+            searchables.Clear();
+            searchables.AddRange(items);
         }
     }
 }
