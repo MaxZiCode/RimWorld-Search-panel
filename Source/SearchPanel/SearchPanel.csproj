@@ -77,6 +77,7 @@
     <Compile Include="FilterTerrainNone.cs" />
     <Compile Include="FilterThingCategory.cs" />
     <Compile Include="FilterThingCategoryIgnore.cs" />
+    <Compile Include="FilterThingNotFogged.cs" />
     <Compile Include="ICategoryObserver.cs" />
     <Compile Include="ItemFactory.cs" />
     <Compile Include="MainMVC.cs" />

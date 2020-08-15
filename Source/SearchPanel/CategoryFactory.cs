@@ -17,55 +17,57 @@ namespace SearchPanel
 
         protected readonly Searcher<Thing> defaultThingSearhcer;
         protected readonly Searcher<Terrain> defaultTerrainSearhcer;
-        protected readonly Filter<Thing> Ignore;
-        protected readonly Filter<Thing> Everything;
-        protected readonly Filter<Thing> Nothing;
-        protected readonly Filter<Thing> CorpsesIgnore;
-        protected readonly Filter<Terrain> NotFoggedTerrain;
-        protected readonly Filter<Terrain> NoTerrain;
+        protected readonly Filter<Thing> ignore;
+        protected readonly Filter<Thing> everything;
+        protected readonly Filter<Thing> nothing;
+        protected readonly Filter<Thing> corpsesIgnore;
+        protected readonly Filter<Thing> notFoggedThing;
+        protected readonly Filter<Terrain> notFoggedTerrain;
+        protected readonly Filter<Terrain> noTerrain;
 
         public CategoryFactory(Searcher<Thing> thingSearhcer, Searcher<Terrain> terrainSearhcer)
         {
             defaultThingSearhcer = thingSearhcer;
             defaultTerrainSearhcer = terrainSearhcer;
 
-            Ignore = new FilterRequestGroupIgnore(ThingRequestGroup.Construction, // Blueprint + BuildingFrame
+            ignore = new FilterRequestGroupIgnore(ThingRequestGroup.Construction, // Blueprint + BuildingFrame
                              new FilterRequestGroupIgnore(ThingRequestGroup.Filth,
                              new FilterThingCategoryIgnore(ThingCategory.Mote,
                              new FilterThingCategoryIgnore(ThingCategory.Ethereal))));
-            Everything = new FilterRequestGroup(ThingRequestGroup.Everything, Ignore);
-            Nothing = new FilterRequestGroupIgnore(ThingRequestGroup.Everything);
-            CorpsesIgnore = new FilterRequestGroupIgnore(ThingRequestGroup.Corpse, Everything);
-            NotFoggedTerrain = new FilterTerrainNotFogged();
-            NoTerrain = new FilterTerrainNone();
+            everything = new FilterRequestGroup(ThingRequestGroup.Everything, ignore);
+            nothing = new FilterRequestGroupIgnore(ThingRequestGroup.Everything);
+            corpsesIgnore = new FilterRequestGroupIgnore(ThingRequestGroup.Corpse, everything);
+            notFoggedThing = new FilterThingNotFogged(everything);
+            notFoggedTerrain = new FilterTerrainNotFogged();
+            noTerrain = new FilterTerrainNone();
         }
 
         public virtual IEnumerable<Category> GetCategories()
         {
-            filterThing = Everything;
-            filterTerrain = NotFoggedTerrain;
+            filterThing = notFoggedThing;
+            filterTerrain = notFoggedTerrain;
             thingSearhcer = defaultThingSearhcer;
             terrainSearhcer = defaultTerrainSearhcer;
 
             // TODO: Favourites
             yield return GetCategory();
 
-            filterTerrain = NoTerrain;
+            filterTerrain = noTerrain;
             yield return GetCategory(ThingCategory.Building);
 
-            filterThing = Nothing;
-            filterTerrain = NotFoggedTerrain;
+            filterThing = nothing;
+            filterTerrain = notFoggedTerrain;
             yield return GetCategory();
 
-            filterThing = Everything;
-            filterTerrain = NoTerrain;
+            filterThing = notFoggedThing;
+            filterTerrain = noTerrain;
             yield return GetCategory(ThingRequestGroup.Plant);
             yield return GetCategory(ThingRequestGroup.HarvestablePlant);
 
-            filterThing = CorpsesIgnore;
+            filterThing = corpsesIgnore;
             yield return GetCategory(ThingRequestGroup.FoodSourceNotPlantOrTree);
 
-            filterThing = Everything;
+            filterThing = notFoggedThing;
             yield return GetCategory(ThingRequestGroup.Pawn);
             yield return GetCategory(ThingRequestGroup.Corpse);
             yield return GetCategory(ThingRequestGroup.Apparel);
