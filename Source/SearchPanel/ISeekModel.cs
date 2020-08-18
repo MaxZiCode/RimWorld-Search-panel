@@ -32,8 +32,8 @@ namespace SearchPanel
 
         void RemoveObserver(ICategoryObserver categoryObserver);
 
-        void RegisterObserver(ISearchItemObserver searchItemObserver);
+        void RegisterObserver(ISearchableObserver searchItemObserver);
 
-        void RemoveObserver(ISearchItemObserver searchItemObserver);
+        void RemoveObserver(ISearchableObserver searchItemObserver);
     }
 }

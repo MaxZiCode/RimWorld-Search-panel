@@ -7,7 +7,7 @@ using Verse;
 
 namespace SearchPanel
 {
-    public struct Terrain
+    public class Terrain
     {
         public TerrainDef Def { get; set; }
 

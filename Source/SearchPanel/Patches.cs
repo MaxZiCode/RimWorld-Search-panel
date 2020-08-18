@@ -13,7 +13,7 @@ using UnityEngine;
 namespace SearchPanel
 {
     [StaticConstructorOnStartup]
-    public static class Patches
+    internal static class Patches
     {
         static Patches()
         {
@@ -59,9 +59,7 @@ namespace SearchPanel
         {
             private static void Postfix()
             {
-                var locations = MainMVC.SeekModel.ActiveSearchable?.GetCells();
-                if (locations != null && locations.Count() != 0)
-                    GenDraw.DrawFieldEdges(locations.ToList(), Color.magenta);
+                MainMVC.MapMarker.Draw();
             }
 
             // TODO: Create a class for it.

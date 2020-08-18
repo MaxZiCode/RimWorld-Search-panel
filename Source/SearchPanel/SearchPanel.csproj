@@ -84,8 +84,9 @@
     <Compile Include="FilterRequestGroup.cs" />
     <Compile Include="FilterRequestGroupIgnore.cs" />
     <Compile Include="ISearchable.cs" />
+    <Compile Include="MapMarker.cs" />
     <Compile Include="SearchItem.cs" />
-    <Compile Include="ISearchItemObserver.cs" />
+    <Compile Include="ISearchableObserver.cs" />
     <Compile Include="ISeekController.cs" />
     <Compile Include="ISeekModel.cs" />
     <Compile Include="CategoryFactory.cs" />

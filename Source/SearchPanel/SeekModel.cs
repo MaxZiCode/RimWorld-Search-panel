@@ -14,7 +14,7 @@ namespace SearchPanel
         private readonly List<Category> categories = new List<Category>();
         private readonly List<ITextObserver> textObservers = new List<ITextObserver>();
         private readonly List<ICategoryObserver> categoryObservers = new List<ICategoryObserver>();
-        private readonly List<ISearchItemObserver> searchItemObservers = new List<ISearchItemObserver>();
+        private readonly List<ISearchableObserver> searchItemObservers = new List<ISearchableObserver>();
 
         private readonly CategoryFactory categoryFactory;
 
@@ -102,7 +102,7 @@ namespace SearchPanel
             categoryObservers.Add(categoryObserver);
         }
 
-        public void RegisterObserver(ISearchItemObserver searchItemObserver)
+        public void RegisterObserver(ISearchableObserver searchItemObserver)
         {
             searchItemObservers.Add(searchItemObserver);
         }
@@ -117,7 +117,7 @@ namespace SearchPanel
             categoryObservers.Remove(categoryObserver);
         }
 
-        public void RemoveObserver(ISearchItemObserver searchItemObserver)
+        public void RemoveObserver(ISearchableObserver searchItemObserver)
         {
             searchItemObservers.Remove(searchItemObserver);
         }

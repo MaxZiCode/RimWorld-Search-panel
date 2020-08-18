@@ -10,7 +10,7 @@ using RimWorld;
 
 namespace SearchPanel
 {
-    public sealed class MainWindow : Window, ITextObserver, ICategoryObserver, ISearchItemObserver
+    public sealed class MainWindow : Window, ITextObserver, ICategoryObserver, ISearchableObserver
     {
         private const float scrollSize = 16f;
 
@@ -39,7 +39,7 @@ namespace SearchPanel
             this.model = model;
             this.model.RegisterObserver((ITextObserver)this);
             this.model.RegisterObserver((ICategoryObserver)this);
-            this.model.RegisterObserver((ISearchItemObserver)this);
+            this.model.RegisterObserver((ISearchableObserver)this);
         }
 
         protected override void SetInitialSizeAndPosition() => windowRect = new Rect()

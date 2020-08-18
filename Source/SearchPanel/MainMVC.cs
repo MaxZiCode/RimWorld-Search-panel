@@ -17,5 +17,6 @@ namespace SearchPanel
         public static ISeekController SeekController { get; set; } = new SeekController(SeekModel);
         public static Window MainWindow { get; set; } = new MainWindow(SeekController, SeekModel);
         public static WindowController MainWindowController { get; set; } = new WindowController(MainWindow);
+        public static MapMarker MapMarker { get; set; } = new MapMarker(SeekModel);
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace SearchPanel
 {
-	public interface ISearchItemObserver
+	public interface ISearchableObserver
 	{
 		void AfterUpdateSearchItem();
 	}
